@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("./font-faces.css");
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  user-select: none;
+}
+
+body {
+  font-family: HelveticaNeue, sans-serif;
+}
+
+.click_Effect {
+  cursor: pointer;
+  &:active {
+    transform: scale(0.95);
+  }
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.1s;
+}
