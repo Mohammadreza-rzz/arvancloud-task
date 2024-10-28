@@ -3,9 +3,10 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import type React from "react"
 import { useForm } from "react-hook-form"
+import Link from "next/link"
 
 import type { loginSchemaType } from "@/types"
-import { TextInput } from "@/ui/components"
+import { TextInput, Button } from "@/ui/components"
 import { loginSchema } from "@/utils/validations/loginFormSchema"
 
 interface IProps {}
@@ -29,7 +30,10 @@ const LoginForm: React.FC<IProps> = () => {
     console.log(values)
   }
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className='bg-gray-50 p-5'>
+    <form
+      onSubmit={handleSubmit(submitHandler)}
+      className='bg-gray-50 p-5 rounded-[4px] w-[320px] xs:w-[420px] sm:w-[450px]'
+    >
       <h1 className='mt-4 text-center text-heading_lg text-light-300'>LOGIN</h1>
       <div className='mt-7 space-y-6'>
         <TextInput
@@ -53,7 +57,17 @@ const LoginForm: React.FC<IProps> = () => {
           }}
         />
       </div>
-      <button type='submit'>clickMe</button>
+      <Button
+        classnames='w-full bg-primary-100 mt-7'
+        type='submit'
+        label='Login'
+      />
+      <div className='mt-4 flex items-center space-x-2.5'>
+        <p className='text-paragraph_sm text-light-500'>Don’t have account?</p>
+        <Link href={"/register"} className='text-sub_heading_md text-light-500'>
+          Register Now
+        </Link>
+      </div>
     </form>
   )
 }
