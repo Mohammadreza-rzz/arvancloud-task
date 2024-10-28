@@ -1,12 +1,12 @@
 "use client"
 
 import { yupResolver } from "@hookform/resolvers/yup"
+import Link from "next/link"
 import type React from "react"
 import { useForm } from "react-hook-form"
-import Link from "next/link"
 
 import type { loginSchemaType } from "@/types"
-import { TextInput, Button } from "@/ui/components"
+import { Button, TextInput } from "@/ui/components"
 import { registerSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
@@ -34,7 +34,7 @@ const RegisterForm: React.FC<IProps> = () => {
   return (
     <form
       onSubmit={handleSubmit(submitHandler)}
-      className='bg-gray-50 p-5 rounded-[4px] w-[320px] xs:w-[420px] sm:w-[450px]'
+      className='w-[320px] rounded-[4px] bg-gray-50 p-5 xs:w-[420px] sm:w-[450px]'
     >
       <h1 className='mt-4 text-center text-heading_lg text-light-300'>
         Register
@@ -78,7 +78,7 @@ const RegisterForm: React.FC<IProps> = () => {
       />
       <div className='mt-4 flex items-center space-x-2.5'>
         <p className='text-paragraph_sm text-light-500'>Already Registered?</p>
-        <Link href={"/login"} className='text-sub_heading_md text-light-500'>
+        <Link href='/login' className='text-sub_heading_md text-light-500'>
           Login
         </Link>
       </div>

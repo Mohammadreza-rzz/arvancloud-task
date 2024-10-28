@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import type { FieldError, UseControllerProps } from "react-hook-form"
 import { useController } from "react-hook-form"
 
-import type { loginSchemaType, registerSchemaType } from "@/types"
+import type { registerSchemaType } from "@/types"
 import { cn } from "@/utils/helper"
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {

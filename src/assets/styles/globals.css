@@ -25,3 +25,10 @@ body {
   transition-timing-function: ease-in-out;
   transition-duration: 0.1s;
 }
+
+.Toastify__close-button {
+  position: absolute;
+  top: 50% !important;
+  right: 10px !important;
+  transform: translate(-50%, -50%);
+}

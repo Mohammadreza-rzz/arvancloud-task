@@ -1,7 +1,7 @@
 import React from "react"
 
 interface IProps {
-  type?: "submit" | "button"
+  type?: "submit" | "button" | "reset"
   classnames?: string
   label: string
 }
@@ -9,11 +9,12 @@ interface IProps {
 const Button: React.FC<IProps> = ({
   label = "",
   classnames = "",
-  type = "button",
+  type = "submit",
 }) => {
   return (
     <button
-      className={`click_Effect text-white text-paragraph_md pt-2.5 pb-3 rounded-[4px] text-center ${classnames}`}
+      className={`click_Effect rounded-[4px] pb-3 pt-2.5 text-center text-paragraph_md text-white ${classnames}`}
+      // eslint-disable-next-line react/button-has-type
       type={type}
       value={label}
     >
