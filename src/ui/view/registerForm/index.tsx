@@ -7,20 +7,22 @@ import Link from "next/link"
 
 import type { loginSchemaType } from "@/types"
 import { TextInput, Button } from "@/ui/components"
-import { loginSchema } from "@/utils/validations/FormSchema"
+import { registerSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
 
 type FormValues = {
+  username: string
   email: string
   password: string
 }
 
-const LoginForm: React.FC<IProps> = () => {
+const RegisterForm: React.FC<IProps> = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { handleSubmit, control } = useForm<FormValues | any>({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(registerSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
@@ -34,8 +36,20 @@ const LoginForm: React.FC<IProps> = () => {
       onSubmit={handleSubmit(submitHandler)}
       className='bg-gray-50 p-5 rounded-[4px] w-[320px] xs:w-[420px] sm:w-[450px]'
     >
-      <h1 className='mt-4 text-center text-heading_lg text-light-300'>LOGIN</h1>
+      <h1 className='mt-4 text-center text-heading_lg text-light-300'>
+        Register
+      </h1>
       <div className='mt-7 space-y-6'>
+        <TextInput
+          hasErrorMessage
+          containerStyle='w-full'
+          label='User'
+          inputProps={{
+            control,
+            name: "username",
+            disabled: false,
+          }}
+        />
         <TextInput
           hasErrorMessage
           containerStyle='w-full'
@@ -60,16 +74,16 @@ const LoginForm: React.FC<IProps> = () => {
       <Button
         classnames='w-full bg-primary-100 mt-7'
         type='submit'
-        label='Login'
+        label='Register'
       />
       <div className='mt-4 flex items-center space-x-2.5'>
-        <p className='text-paragraph_sm text-light-500'>Don’t have account?</p>
-        <Link href={"/register"} className='text-sub_heading_md text-light-500'>
-          Register Now
+        <p className='text-paragraph_sm text-light-500'>Already Registered?</p>
+        <Link href={"/login"} className='text-sub_heading_md text-light-500'>
+          Login
         </Link>
       </div>
     </form>
   )
 }
 
-export default LoginForm
+export default RegisterForm
