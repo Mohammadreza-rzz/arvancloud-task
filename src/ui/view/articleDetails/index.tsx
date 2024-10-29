@@ -27,7 +27,7 @@ const options: Option[] = [
 const Articledetails: React.FC = () => {
   // states & Logic
   const [tags, setTags] = useState<Option[]>(options)
-  const [isClient, setIsClient] = useState<boolean>(null)
+  const [isClient, setIsClient] = useState<boolean>(false)
   const { control, handleSubmit, getValues, setValue } = useForm<FormValues>({
     resolver: yupResolver<any>(articleDetailsFormSchema),
     defaultValues: {
