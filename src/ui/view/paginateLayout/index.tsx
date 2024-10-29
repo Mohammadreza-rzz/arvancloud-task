@@ -6,7 +6,7 @@ interface IProps {}
 
 const PaginateLayout: React.FC<IProps> = () => {
   return (
-    <div className='bg-blue-50 absolute bottom-[7%] w-full'>
+    <div className='w-full mt-16'>
       <CustomePagination
         pageCount={10}
         onPageChange={() => console.log("hello")}

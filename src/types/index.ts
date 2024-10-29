@@ -9,3 +9,9 @@ export type registerSchemaType = {
   email: string
   password: string
 }
+
+//dropdown active state value
+export type dropDownActivator = {
+  id: string | number
+  isActive: boolean
+}

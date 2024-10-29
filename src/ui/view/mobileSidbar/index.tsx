@@ -26,7 +26,7 @@ const MobileSidbar: React.FC<IProps> = () => {
   //   useEffects
 
   return (
-    <aside className='relative flex w-[70px] flex-col items-center bg-primary-100 px-1 md:hidden'>
+    <aside className='relative flex w-[70px] flex-col items-center bg-primary-100 px-1 md:hidden z-30'>
       <UserInfoLabel classnames='mt-4' username='Mohammadreza razzaz' />
       <div className='mt-10 flex w-full flex-col items-center justify-center space-y-5 '>
         <Link
