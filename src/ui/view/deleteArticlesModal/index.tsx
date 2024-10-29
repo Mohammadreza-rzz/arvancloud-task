@@ -14,7 +14,7 @@ const DeleteArticleModal: React.FC<IProps> = ({
   closeButtonHandler = () => {},
 }) => {
   return (
-    <div className='min-w-[500px] bg-white rounded-[4px] flex flex-col'>
+    <div className=' min-w-[80%] sm:min-w-[500px] bg-white rounded-[4px] flex flex-col'>
       <div className='px-4 py-5 flex justify-between items-center border-b border-light-100'>
         <h2 className='text-paragraph_xl text-[20px] text-light-500 font-semibold'>
           Delete Article
