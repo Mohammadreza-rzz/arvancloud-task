@@ -1,4 +1,9 @@
-import { DeskTopSideBar, MobileSideBar, TopBar } from "@/ui/view"
+import {
+  DeskTopSideBar,
+  MobileSideBar,
+  TopBar,
+  PaginateLayout,
+} from "@/ui/view"
 
 export default function ArticlesLayout({
   children,
@@ -12,7 +17,10 @@ export default function ArticlesLayout({
         <div className='flex h-[1024px] w-full [@media(max-width:1440px)]:h-[calc(100vh-66px)] [@media(max-width:768px)]:h-[calc(100vh)] '>
           <DeskTopSideBar />
           <MobileSideBar />
-          {children}
+          <div className='flex-1 relative'>
+            {children}
+            <PaginateLayout />
+          </div>
         </div>
       </div>
     </div>
