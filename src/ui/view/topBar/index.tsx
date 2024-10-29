@@ -1,15 +1,16 @@
 import React from "react"
+
 import { Button } from "@/ui/components"
 
 interface IProps {}
 
 const TopBar: React.FC<IProps> = () => {
   return (
-    <div className='flex items-center justify-between w-full pl-[18px] pr-8 py-3 bg-light-500'>
-      <span className='inline-flex space-x-5 items-center'>
-        <h2 className='text-white text-paragraph_xl'>Arvan Challenge</h2>
-        <p className='text-white text-paragraph_sm'>
-          Welcome {"mohammadreza razza"}
+    <div className='hidden w-full items-center justify-between bg-light-500 py-3 pl-[18px] pr-8 md:flex'>
+      <span className='inline-flex items-center space-x-5'>
+        <h2 className='text-paragraph_xl text-white'>Arvan Challenge</h2>
+        <p className='text-paragraph_sm text-white'>
+          Welcome mohammadreza razza
         </p>
       </span>
       <Button

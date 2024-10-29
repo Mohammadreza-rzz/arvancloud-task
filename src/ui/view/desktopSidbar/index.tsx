@@ -5,7 +5,7 @@ interface IProps {}
 
 const DeskTopSideBar: React.FC<IProps> = () => {
   return (
-    <aside className='w-[250px] bg-primary-100  '>
+    <aside className='hidden w-[250px] bg-primary-100 md:block'>
       <h3 className='px-5 py-3 text-paragraph_xl text-white'>Post</h3>
       <ul>
         <li className='w-full'>

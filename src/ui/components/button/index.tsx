@@ -13,7 +13,7 @@ const Button: React.FC<IProps> = ({
 }) => {
   return (
     <button
-      className={`inline-flex items-center justify-start click_Effect rounded-[4px] pb-3 pt-2.5 text-center text-paragraph_md text-white ${classnames}`}
+      className={`inline-flex items-center justify-center click_Effect rounded-[4px] pb-3 pt-2.5 text-center text-paragraph_md text-white ${classnames}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
       value={label}

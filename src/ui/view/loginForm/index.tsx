@@ -4,10 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import Link from "next/link"
 import type React from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
 
 import type { loginSchemaType } from "@/types"
-import { Button, TextInput, CustomToast } from "@/ui/components"
+import { Button, TextInput } from "@/ui/components"
 import { loginSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
