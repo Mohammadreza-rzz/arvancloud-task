@@ -5,16 +5,18 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  flex-wrap: wrap; /* Wrap items to prevent overflow on small screens */
 }
 
 .page_item {
   border: 1px solid #ddd;
-  padding: 8px 12px;
-  margin: 0 4px;
+  padding: 6px 10px; /* Reduced padding for better fit on smaller screens */
+  margin: 0 2px;
   cursor: pointer;
   border-radius: 4px;
   color: #333;
   transition: background-color 0.3s ease;
+  font-size: 0.9rem; /* Smaller font size */
 }
 
 .page_item:hover {
@@ -29,4 +31,27 @@
 .disabled {
   color: #ddd;
   cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Tablet view */
+  .page_item {
+    padding: 4px 8px;
+    font-size: 0.85rem;
+  }
+  .pagination {
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile view */
+  .page_item {
+    padding: 3px 6px;
+    font-size: 0.8rem;
+  }
+  .pagination {
+    gap: 2px;
+  }
 }
