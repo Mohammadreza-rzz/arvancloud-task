@@ -1,4 +1,5 @@
 "use client"
+
 import React from "react"
 
 interface IProps {
@@ -17,7 +18,7 @@ const Button: React.FC<IProps> = ({
   return (
     <button
       onClick={clickHandler}
-      className={`inline-flex items-center justify-center click_Effect rounded-[4px] pb-3 pt-2.5 text-center text-paragraph_md text-white ${classnames}`}
+      className={`click_Effect inline-flex items-center justify-center rounded-[4px] pb-3 pt-2.5 text-center text-paragraph_md text-white ${classnames}`}
       // eslint-disable-next-line react/button-has-type
       type={type}
       value={label}

@@ -1,10 +1,11 @@
 "use client"
+
 import React, { useState } from "react"
-import { Button, TableActions, ModalsLayout } from "@/ui/components"
-import { dropDownActivator } from "@/types"
-import { useForm, useFieldArray } from "react-hook-form"
-import { XIcon } from "@/ui/components/icons"
+
+import type { dropDownActivator } from "@/types"
+import { ModalsLayout, TableActions } from "@/ui/components"
 import { DeleteArticlesModal } from "@/ui/view"
+
 interface IProps {}
 
 const data = [
@@ -92,14 +93,14 @@ const data = [
 ]
 
 const Articlestable: React.FC<IProps> = () => {
-  //states & Logic
+  // states & Logic
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
   const [dropdownsIsActive, setDropdownsIsActive] = useState<
     dropDownActivator[]
   >(
     data.map(item => {
       return { id: item.id, isActive: false }
-    }),
+    })
   )
 
   // handlers
@@ -111,8 +112,8 @@ const Articlestable: React.FC<IProps> = () => {
           ? !item.isActive
             ? { ...item, isActive: true }
             : { ...item, isActive: false }
-          : { ...item, isActive: false },
-      ),
+          : { ...item, isActive: false }
+      )
     )
   }
 
@@ -123,25 +124,25 @@ const Articlestable: React.FC<IProps> = () => {
   //   useEffects
   return (
     <div className='overflow-x-auto'>
-      <table className='min-w-full bg-white border border-gray-200 border-none'>
+      <table className='min-w-full border border-none border-gray-200 bg-white'>
         <thead className='bg-light-50'>
-          <tr className='text-left border-b border-gray-200'>
-            <th className='text-light-400 text-sub_heading_lg px-4 py-2.5'>
+          <tr className='border-b border-gray-200 text-left'>
+            <th className='px-4 py-2.5 text-sub_heading_lg text-light-400'>
               #
             </th>
-            <th className='text-light-400 text-sub_heading_lg px-4 py-2.5'>
+            <th className='px-4 py-2.5 text-sub_heading_lg text-light-400'>
               Title
             </th>
-            <th className='text-light-400 text-sub_heading_lg px-4 py-2.5'>
+            <th className='px-4 py-2.5 text-sub_heading_lg text-light-400'>
               Author
             </th>
-            <th className='text-light-400 text-sub_heading_lg px-4 py-2.5'>
+            <th className='px-4 py-2.5 text-sub_heading_lg text-light-400'>
               Tags
             </th>
-            <th className='text-light-400 text-sub_heading_lg px-4 py-2.5'>
+            <th className='px-4 py-2.5 text-sub_heading_lg text-light-400'>
               Excerpt
             </th>
-            <th className='text-light-400 text-sub_heading_lg px-4 py-2.5'>
+            <th className='px-4 py-2.5 text-sub_heading_lg text-light-400'>
               Created
             </th>
           </tr>
@@ -152,23 +153,23 @@ const Articlestable: React.FC<IProps> = () => {
               key={item.id}
               className='border-b border-gray-200 hover:bg-gray-200'
             >
-              <td className='px-4 py-5 text-light-500 text-paragraph_md'>
+              <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {index + 1}
               </td>
-              <td className='px-4 py-5 text-light-500 text-paragraph_md'>
+              <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item.title}
               </td>
-              <td className='px-4 py-5 text-light-500 text-paragraph_md'>
+              <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item.author}
               </td>
-              <td className='px-4 py-5 text-light-500 text-paragraph_md'>
+              <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item.tags}
               </td>
-              <td className='px-4 py-5 text-light-500 text-paragraph_md'>
+              <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item.excerpt}
               </td>
-              <td className='px-4 py-5 flex justify-between items-center'>
-                <p className='text-light-500 text-paragraph_md'>
+              <td className='flex items-center justify-between px-4 py-5'>
+                <p className='text-paragraph_md text-light-500'>
                   {item.created}
                 </p>
 
@@ -176,7 +177,7 @@ const Articlestable: React.FC<IProps> = () => {
                   clickhandler={ActionButtonHandler.bind(this, item?.id)}
                   isActive={
                     dropdownsIsActive?.filter(
-                      activeListItem => activeListItem.id === item.id,
+                      activeListItem => activeListItem.id === item.id
                     )[0].isActive
                   }
                   actionList={[
@@ -201,7 +202,7 @@ const Articlestable: React.FC<IProps> = () => {
       </table>
       {!!deleteModalIsActive && (
         <ModalsLayout>
-          <div className='fixed h-screen w-screen bg-black/50 left-0 top-0 flex items-center justify-center z-40 '>
+          <div className='fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black/50 '>
             <DeleteArticlesModal
               NoButtonHandler={closeDeleteModal}
               closeButtonHandler={closeDeleteModal}

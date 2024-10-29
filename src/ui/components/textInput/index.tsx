@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import type { FieldError, UseControllerProps } from "react-hook-form"
 import { useController } from "react-hook-form"
 
-import type { registerSchemaType } from "@/types"
+import type { textInputProps } from "@/types"
 import { cn } from "@/utils/helper"
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -14,7 +14,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   labelStyle?: string
   InputStyle?: string
-  inputProps: UseControllerProps<registerSchemaType>
+  inputProps: UseControllerProps<textInputProps | any>
   hasErrorMessage?: boolean
 }
 
@@ -61,11 +61,7 @@ const CustomInput: React.FC<IProps> = ({
           id={id || name}
           placeholder={placeholder}
           disabled={disabled}
-          className={`${InputStyle} ${
-            disabled
-              ? "placeholder:text-light-200"
-              : "placeholder:text-light-500"
-          } relative w-full rounded-[4px] border border-light-100 bg-white p-3 text-paragraph_lg text-light-400 outline-none focus-visible:border-warning-100 ${!!hasErrorMessage && error?.message && !disabled && "border-danger-100 focus-visible:border-danger-100"}`}
+          className={`${InputStyle} placeholder:text-light-200 relative w-full rounded-[4px] border border-light-100 bg-white p-3 text-paragraph_lg text-light-400 outline-none focus-visible:border-warning-100 ${!!hasErrorMessage && error?.message && !disabled && "border-danger-100 focus-visible:border-danger-100"}`}
         />
         {!!hasErrorMessage && error?.message && !disabled && (
           <span className='mt-2.5 inline-flex w-full justify-start'>

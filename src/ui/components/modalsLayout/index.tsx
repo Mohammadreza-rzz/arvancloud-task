@@ -6,7 +6,7 @@ interface IProps {
 
 const ModalsLayout: React.FC<IProps> = ({ children }) => {
   return (
-    <div className='fixed h-screen w-screen bg-black/50 left-0 top-0 flex items-center justify-center z-40'>
+    <div className='fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black/50'>
       {children}
     </div>
   )

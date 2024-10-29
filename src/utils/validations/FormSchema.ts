@@ -1,6 +1,10 @@
 import * as Yup from "yup"
 
-import type { loginSchemaType, registerSchemaType } from "@/types"
+import type {
+  loginSchemaType,
+  registerSchemaType,
+  articleDetailsFormSchemaType,
+} from "@/types"
 
 export const loginSchema = Yup.object<loginSchemaType>({
   email: Yup.string()
@@ -22,3 +26,9 @@ export const registerSchema = Yup.object<registerSchemaType>({
     .matches(/[0-9]/, "Password must contain at least one number")
     .matches(/[\W_]/, "Password must contain at least one special character"),
 })
+
+export const articleDetailsFormSchema =
+  Yup.object<articleDetailsFormSchemaType>({
+    title: Yup.string().required("title is required"),
+    description: Yup.string().required("description is required"),
+  })

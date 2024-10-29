@@ -1,7 +1,10 @@
 "use client"
+
 import React from "react"
-import { XIcon } from "@/ui/components/icons"
+
 import { Button } from "@/ui/components"
+import { XIcon } from "@/ui/components/icons"
+
 interface IProps {
   yesButtonHandler: () => void
   NoButtonHandler: () => void
@@ -14,21 +17,21 @@ const DeleteArticleModal: React.FC<IProps> = ({
   closeButtonHandler = () => {},
 }) => {
   return (
-    <div className=' min-w-[80%] sm:min-w-[500px] bg-white rounded-[4px] flex flex-col'>
-      <div className='px-4 py-5 flex justify-between items-center border-b border-light-100'>
-        <h2 className='text-paragraph_xl text-[20px] text-light-500 font-semibold'>
+    <div className=' flex min-w-[80%] flex-col rounded-[4px] bg-white sm:min-w-[500px]'>
+      <div className='flex items-center justify-between border-b border-light-100 px-4 py-5'>
+        <h2 className='text-[20px] text-paragraph_xl font-semibold text-light-500'>
           Delete Article
         </h2>
-        <span onClick={closeButtonHandler} className='size-fit inline-block'>
+        <span onClick={closeButtonHandler} className='inline-block size-fit'>
           <XIcon classnamse='size-5 cursor-pointer click_Effect' />
         </span>
       </div>
-      <div className='pt-5 pb-12 px-5'>
-        <h3 className='text-light-400 text-sub_heading_lg'>
+      <div className='px-5 pb-12 pt-5'>
+        <h3 className='text-sub_heading_lg text-light-400'>
           Are you sure to delete Article?
         </h3>
       </div>
-      <div className='p-4 flex justify-end space-x-4'>
+      <div className='flex justify-end space-x-4 p-4'>
         <Button
           clickHandler={NoButtonHandler}
           type='button'

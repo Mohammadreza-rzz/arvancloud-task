@@ -1,9 +1,8 @@
 "use client"
+
 import React from "react"
+
 import { cn } from "@/utils/helper"
-import { XIcon } from "@/ui/components/icons"
-import { useParams } from "next/navigation"
-import { toast } from "react-toastify"
 
 interface IProps {
   toastId?: string | number
@@ -30,7 +29,7 @@ const CustomToast: React.FC<IProps> = ({
     <div
       className={cn(
         "flex items-center justify-between",
-        !!containerClass && containerClass,
+        !!containerClass && containerClass
       )}
     >
       {!!icon && icon}
@@ -38,7 +37,7 @@ const CustomToast: React.FC<IProps> = ({
         {expended ? (
           <div>
             <h2 className={cn("text-label_md")}>{header}</h2>
-            <p className={cn("text-paragraph_sm mt-1")}>{description}</p>
+            <p className={cn("mt-1 text-paragraph_sm")}>{description}</p>
 
             <div className={cn("inline-grid grid-cols-2 gap-x-5")}>
               {!!button1 && button1}
@@ -46,14 +45,14 @@ const CustomToast: React.FC<IProps> = ({
             </div>
           </div>
         ) : (
-          <div className='flex items-center w-full'>
+          <div className='flex w-full items-center'>
             <p className={cn("flex-1 text-paragraph_md")}>
               <b>{header}</b> {description}
             </p>
 
             <span
               className={cn(
-                "w-fit h-fit flex justify-between items-center -translate-y-0.5 justify-self-end",
+                "flex size-fit -translate-y-0.5 items-center justify-between justify-self-end"
               )}
             >
               {!!button1 && button1}

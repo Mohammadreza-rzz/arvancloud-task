@@ -1,4 +1,5 @@
 import { ArticleTable } from "@/ui/view"
+
 export default function Articles() {
   return (
     <main className='space-y-7'>

@@ -1,6 +1,8 @@
 "use client"
+
 import React from "react"
 import ReactPaginate from "react-paginate"
+
 import styles from "./Pagination.module.css"
 
 interface PaginationProps {
@@ -19,9 +21,9 @@ const PaginationComponent: React.FC<PaginationProps> = ({
 
   return (
     <ReactPaginate
-      previousLabel={"<"}
-      nextLabel={">"}
-      breakLabel={"..."}
+      previousLabel='<'
+      nextLabel='>'
+      breakLabel='...'
       pageCount={pageCount}
       marginPagesDisplayed={2}
       pageRangeDisplayed={3}

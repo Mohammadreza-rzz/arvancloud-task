@@ -1,8 +1,8 @@
 import {
   DeskTopSideBar,
   MobileSideBar,
-  TopBar,
   PaginateLayout,
+  TopBar,
 } from "@/ui/view"
 
 export default function ArticlesLayout({
@@ -17,7 +17,7 @@ export default function ArticlesLayout({
         <div className='flex h-[1024px] w-full [@media(max-width:1440px)]:h-[calc(100vh-66px)] [@media(max-width:768px)]:h-[calc(100vh)] '>
           <DeskTopSideBar />
           <MobileSideBar />
-          <div className='flex-1 relative px-2 md:px-[30px] pt-6 pb-[70px] overflow-y-auto'>
+          <div className='relative flex-1 overflow-y-auto px-2 pb-[70px] pt-6 md:px-[30px]'>
             {children}
             <PaginateLayout />
           </div>

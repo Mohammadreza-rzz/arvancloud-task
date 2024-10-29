@@ -1,4 +1,5 @@
 "use client"
+
 import Link from "next/link"
 import React, { useState } from "react"
 
@@ -14,7 +15,7 @@ import {
 interface IProps {}
 
 const MobileSidbar: React.FC<IProps> = () => {
-  //states & Logic
+  // states & Logic
   const [sidebarActive, setSidebarActive] = useState<boolean>(false)
   // handlers
   const closeModalHandler = () => {
@@ -26,7 +27,7 @@ const MobileSidbar: React.FC<IProps> = () => {
   //   useEffects
 
   return (
-    <aside className='relative flex w-[70px] flex-col items-center bg-primary-100 px-1 md:hidden z-30'>
+    <aside className='relative z-30 flex w-[70px] flex-col items-center bg-primary-100 px-1 md:hidden'>
       <UserInfoLabel classnames='mt-4' username='Mohammadreza razzaz' />
       <div className='mt-10 flex w-full flex-col items-center justify-center space-y-5 '>
         <Link
@@ -55,15 +56,15 @@ const MobileSidbar: React.FC<IProps> = () => {
       </div>
       {/* sidebar menu modal in mobile  */}
       <div
-        className={`fixed left-0 h-screen  bg-black/50 ${!!sidebarActive ? "w-full" : "w-0"}`}
+        className={`fixed left-0 h-screen  bg-black/50 ${sidebarActive ? "w-full" : "w-0"}`}
       >
         <div
-          className={`h-screen flex flex-col bg-primary-100 relative overflow-hidden transition-[width] duration-500 ease-in-out  ${!!sidebarActive ? "w-[250px]" : "w-0"}`}
+          className={`relative flex h-screen flex-col overflow-hidden bg-primary-100 transition-[width] duration-500 ease-in-out  ${sidebarActive ? "w-[250px]" : "w-0"}`}
         >
           <div className='w-full bg-light-500 py-6 pl-[18px] pr-8 '>
             <span className='inline-flex flex-col space-y-2'>
               <span
-                className='size-fit inline-block absolute right-5 top-5 cursor-pointer'
+                className='absolute right-5 top-5 inline-block size-fit cursor-pointer'
                 onClick={closeModalHandler}
               >
                 <XIcon classnamse='size-5 fill-white' />
@@ -72,7 +73,7 @@ const MobileSidbar: React.FC<IProps> = () => {
               <h2 className='mb-3 text-paragraph_xl text-white'>
                 Arvan Challenge
               </h2>
-              <span className='inline-flex space-x-2 items-center justify-center '>
+              <span className='inline-flex items-center justify-center space-x-2 '>
                 <UserInfoLabel username='Mohammadreza razzaz' />
                 <p className='text-paragraph_sm text-white'>
                   mohammadreza razza
