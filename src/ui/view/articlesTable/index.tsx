@@ -1,8 +1,10 @@
 "use client"
 import React, { useState } from "react"
-import { TableActions } from "@/ui/components"
+import { Button, TableActions, ModalsLayout } from "@/ui/components"
 import { dropDownActivator } from "@/types"
 import { useForm, useFieldArray } from "react-hook-form"
+import { XIcon } from "@/ui/components/icons"
+import { DeleteArticlesModal } from "@/ui/view"
 interface IProps {}
 
 const data = [
@@ -91,6 +93,7 @@ const data = [
 
 const Articlestable: React.FC<IProps> = () => {
   //states & Logic
+  const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
   const [dropdownsIsActive, setDropdownsIsActive] = useState<
     dropDownActivator[]
   >(
@@ -111,6 +114,10 @@ const Articlestable: React.FC<IProps> = () => {
           : { ...item, isActive: false },
       ),
     )
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteModalIsActive(false)
   }
 
   //   useEffects
@@ -182,7 +189,7 @@ const Articlestable: React.FC<IProps> = () => {
                     {
                       title: "Delete",
                       clickHandler: () => {
-                        console.log("click on delete")
+                        setDeleteModalIsActive(true)
                       },
                     },
                   ]}
@@ -192,6 +199,19 @@ const Articlestable: React.FC<IProps> = () => {
           ))}
         </tbody>
       </table>
+      {!!deleteModalIsActive && (
+        <ModalsLayout>
+          <div className='fixed h-screen w-screen bg-black/50 left-0 top-0 flex items-center justify-center z-40 '>
+            <DeleteArticlesModal
+              NoButtonHandler={closeDeleteModal}
+              closeButtonHandler={closeDeleteModal}
+              yesButtonHandler={() => {
+                console.log("yes delete items")
+              }}
+            />
+          </div>
+        </ModalsLayout>
+      )}
     </div>
   )
 }
