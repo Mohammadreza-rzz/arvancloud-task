@@ -27,6 +27,7 @@ const options: Option[] = [
 const Articledetails: React.FC = () => {
   // states & Logic
   const [tags, setTags] = useState<Option[]>(options)
+  const [isClient, setIsClient] = useState<boolean>(null)
   const { control, handleSubmit, getValues, setValue } = useForm<FormValues>({
     resolver: yupResolver<any>(articleDetailsFormSchema),
     defaultValues: {
@@ -62,6 +63,10 @@ const Articledetails: React.FC = () => {
   }
 
   //   useEffects
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <>
@@ -113,40 +118,43 @@ const Articledetails: React.FC = () => {
                 classnames='bg-danger-100 text-white w-[75px] !py-[9px] rounded-[4px] hover:bg-danger-100/90 text-paragraph_sm'
               />
             </div>
-            {/* {} */}
-            <div className='lg:hidden flex flex-col space-y-2.5'>
-              <label
-                htmlFor='selectedOptions'
-                className='text-paragraph_sm text-light-500'
-              >
-                Tags
-              </label>
-              <Controller
-                name='selectedOptions'
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    isMulti
-                    options={tags}
-                    className='basic-multi-select '
-                    classNamePrefix='select'
-                    placeholder='Select options...'
-                    closeMenuOnSelect={false}
-                    onChange={selectedOptions => {
-                      field.onChange(
-                        selectedOptions
-                          ? selectedOptions.map(option => option.value)
-                          : [],
-                      )
-                    }}
-                    value={tags.filter(option =>
-                      field.value.includes(option.value),
-                    )}
-                  />
-                )}
-              />
-            </div>
+            {/* fix hydration error , conflict with react select package   */}
+            {isClient && (
+              <div className='lg:hidden flex flex-col space-y-2.5'>
+                <label
+                  htmlFor='selectedOptions'
+                  className='text-paragraph_sm text-light-500'
+                >
+                  Tags
+                </label>
+                <Controller
+                  name='selectedOptions'
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      isMulti
+                      options={tags}
+                      className='basic-multi-select '
+                      classNamePrefix='select'
+                      placeholder='Select options...'
+                      closeMenuOnSelect={false}
+                      onChange={selectedOptions => {
+                        field.onChange(
+                          selectedOptions
+                            ? selectedOptions.map(option => option.value)
+                            : [],
+                        )
+                      }}
+                      value={tags.filter(option =>
+                        field.value.includes(option.value),
+                      )}
+                    />
+                  )}
+                />
+              </div>
+            )}
+
             <div className='flex flex-col space-y-2.5'>
               <label
                 htmlFor='body'
