@@ -68,31 +68,31 @@ const LoginForm: React.FC<IProps> = () => {
           Register Now
         </Link>
       </div>
-      {/* <span
+      <span
         className=' inline-flex'
-        onClick={() => {
-          toast(
-            <CustomToast
-              toastId={"login-error"}
-              containerClass=''
-              header={"Login Failed!"}
-              description={"User name and/or Password is invalid"}
-            />,
-            {
-              style: {
-                backgroundColor: "#e7cecd",
-                color: "#9f4f48",
-                minHeight: "50px",
-                minWidth: "auto",
-              },
-              isLoading: false,
-              toastId: "login-error",
-            },
-          )
-        }}
+        // onClick={() => {
+        //   toast(
+        //     <CustomToast
+        //       toastId={"login-error"}
+        //       containerClass=''
+        //       header={"Login Failed!"}
+        //       description={"User name and/or Password is invalid"}
+        //     />,
+        //     {
+        //       style: {
+        //         backgroundColor: "#e7cecd",
+        //         color: "#9f4f48",
+        //         minHeight: "50px",
+        //         minWidth: "auto",
+        //       },
+        //       isLoading: false,
+        //       toastId: "login-error",
+        //     },
+        //   )
+        // }}
       >
         show toast 1
-      </span> */}
+      </span>
     </form>
   )
 }
