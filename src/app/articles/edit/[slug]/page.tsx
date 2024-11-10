@@ -1,4 +1,5 @@
 import { ArticleDetailes } from "@/ui/view"
+
 export default function EditArticles() {
   return (
     <main className='space-y-7'>
