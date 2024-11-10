@@ -16,13 +16,10 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Verify the refresh token
     const decoded = verifyRefreshToken(refreshToken) as { userId: string }
 
-    // Generate a new access token
     const newAccessToken = generateAccessToken(decoded.userId)
 
-    // Return the new access token
     return NextResponse.json(
       {
         accessToken: newAccessToken,
