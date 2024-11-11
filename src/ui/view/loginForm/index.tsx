@@ -2,17 +2,17 @@
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import type React from "react"
-import { useForm } from "react-hook-form"
 import { useTransition } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
 import type { loginSchemaType } from "@/types"
-import { Button, TextInput, CustomToast } from "@/ui/components"
+import { Button, CustomToast, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
-import { loginSchema } from "@/utils/validations/FormSchema"
-import { toast } from "react-toastify"
-import { useRouter } from "next/navigation"
 import { loginAction } from "@/utils/actions"
+import { loginSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
 
@@ -22,12 +22,12 @@ type FormValues = {
 }
 
 const handleToast = (statusCode: number, message: string) => {
-  if (statusCode === 409 || statusCode === 422 || statusCode === 400) {
+  if (statusCode === 403 || statusCode === 422 || statusCode === 400) {
     return toast(
       <CustomToast
-        toastId={"user-exist"}
+        toastId='Login'
         containerClass=''
-        header={"Register Failed!"}
+        header='Login Failed!'
         description={`${message}`}
       />,
       {
@@ -38,15 +38,16 @@ const handleToast = (statusCode: number, message: string) => {
           minWidth: "auto",
         },
         isLoading: false,
-        toastId: "user-exist",
-      },
+        toastId: "Login",
+      }
     )
-  } else if (statusCode === 201) {
+  }
+  if (statusCode === 200) {
     return toast(
       <CustomToast
-        toastId={"register-success"}
+        toastId='Login-success'
         containerClass=''
-        header={"Well done"}
+        header='Well done'
         description={`${message}`}
       />,
       {
@@ -57,8 +58,8 @@ const handleToast = (statusCode: number, message: string) => {
           minWidth: "auto",
         },
         isLoading: false,
-        toastId: "register-success",
-      },
+        toastId: "Login-success",
+      }
     )
   }
 }
@@ -78,11 +79,14 @@ const LoginForm: React.FC<IProps> = () => {
   const submitHandler = async (values: loginSchemaType) => {
     const { email, password } = values
     startTransition(async () => {
-      const res = await loginAction( password, email)
-      // handleToast(!!res?.status ? res?.status : 400, res?.message!)
-      // if (res?.status === 201) {
-      //   router.push("/login")
-      // }
+      const res = await loginAction(password, email)
+      handleToast(
+        res?.status ? res?.status : 400,
+        res?.message ? res?.message : " "
+      )
+      if (res?.status === 200) {
+        router.push("/articles")
+      }
     })
   }
   return (
