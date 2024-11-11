@@ -1,5 +1,15 @@
-import { BaseApireq } from "../interceptors"
+import axios from "axios"
 
-const getUserData = () => {}
+const getUserData = async (access_token: string) => {
+  const res = await axios.get(
+    `${process.env.NEXT_BASE_URL}/api/auth/getCurrentUser`,
+    {
+      params: {
+        access_token,
+      },
+    },
+  )
+  return res.data
+}
 
 export default getUserData
