@@ -3,6 +3,8 @@
 import { registerSchema } from "@/utils/validations/FormSchema"
 
 import { BaseApireq } from "../interceptors"
+import axios from "axios"
+import { headers } from "next/headers"
 
 const registerAction = async (
   username: string,
@@ -15,19 +17,24 @@ const registerAction = async (
       { abortEarly: false },
     )
 
-    const res = await BaseApireq.post("api/auth/register", {
-      email,
-      username,
-      password,
-    })
+    const resBody = {
+      user: {
+        email: email,
+        password: password,
+        username: username,
+      },
+    }
+
+    const res = await BaseApireq.post("/users", resBody)
+
     if (res.status === 201) {
       return { status: 201, message: "registered successfully" }
     }
   } catch (error: any) {
-    if (error.status === 409) {
-      return { status: 409, message: "User already exists!" }
-    } else if (error.status === 422) {
-      return { status: 422, message: "All fields are required!" }
+    const errorMessageKey = Object.keys(error?.response.data.errors)[0]
+    const errorMessage = error?.response.data.errors[errorMessageKey][0]
+    if (error.status === 422) {
+      return { status: 422, message: `${errorMessageKey} ${errorMessage}` }
     } else {
       return {
         status: 400,
