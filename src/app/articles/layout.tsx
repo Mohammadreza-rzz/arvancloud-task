@@ -10,6 +10,7 @@ export default function ArticlesLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  console.log("lay outttttttttt")
   return (
     <div className='flex h-screen flex-col items-center justify-center'>
       <div className='w-full'>

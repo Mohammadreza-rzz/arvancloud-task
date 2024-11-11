@@ -4,7 +4,7 @@ import React, { useState } from "react"
 
 import type { dropDownActivator } from "@/types"
 import { ModalsLayout, TableActions } from "@/ui/components"
-import { DeleteArticlesModal } from "@/ui/view"
+import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
 
 interface IProps {}
 
@@ -100,7 +100,7 @@ const Articlestable: React.FC<IProps> = () => {
   >(
     data.map(item => {
       return { id: item.id, isActive: false }
-    })
+    }),
   )
 
   // handlers
@@ -108,12 +108,13 @@ const Articlestable: React.FC<IProps> = () => {
   const ActionButtonHandler = (id: string | number) => {
     setDropdownsIsActive(preData =>
       preData?.map(item =>
+        // eslint-disable-next-line no-nested-ternary
         id === item.id
           ? !item.isActive
             ? { ...item, isActive: true }
             : { ...item, isActive: false }
           : { ...item, isActive: false }
-      )
+      ),
     )
   }
 
@@ -174,10 +175,10 @@ const Articlestable: React.FC<IProps> = () => {
                 </p>
 
                 <TableActions
-                  clickhandler={ActionButtonHandler.bind(this, item?.id)}
+                  clickhandler={() => ActionButtonHandler(item?.id)}
                   isActive={
                     dropdownsIsActive?.filter(
-                      activeListItem => activeListItem.id === item.id
+                      activeListItem => activeListItem.id === item.id,
                     )[0].isActive
                   }
                   actionList={[

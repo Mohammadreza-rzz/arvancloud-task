@@ -1,5 +1,6 @@
 export { default as Button } from "./button"
 export { default as CustomePagination } from "./customePagination"
+export { default as LogoutButtonContainer } from "./logoutButtonContainer"
 export { default as ModalsLayout } from "./modalsLayout"
 export { default as TableActions } from "./tableActions"
 export { default as TextInput } from "./textInput"
