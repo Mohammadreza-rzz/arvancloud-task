@@ -2,106 +2,48 @@
 
 import React, { useState } from "react"
 
-import type { dropDownActivator } from "@/types"
+import type { Article, dropDownActivator } from "@/types"
 import { ModalsLayout, TableActions } from "@/ui/components"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
+import { useForm, useFieldArray } from "react-hook-form"
+import { ArticleFormValue } from "@/types"
+import { truncateText } from "@/utils/helper"
+import { useParams } from "next/navigation"
 
-interface IProps {}
+interface IProps {
+  initialArticles: Article[]
+}
 
-const data = [
-  {
-    id: 1,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 2,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 13,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 41,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 15,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 16,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 17,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 18,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 19,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  {
-    id: 12,
-    title: "Article title",
-    author: "@author_username",
-    tags: "list of tags",
-    excerpt: "First 20 words of article body",
-    created: "June 11, 2019",
-  },
-  // Add more articles here
-]
-
-const Articlestable: React.FC<IProps> = () => {
+const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
   // states & Logic
+  const params = useParams()
+  const { page } = params
+
+  console.log([page], "pageNumber")
+
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
+
+  const { control, register } = useForm<ArticleFormValue>({
+    defaultValues: {
+      articles: initialArticles,
+    },
+  })
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control,
+      name: "articles",
+    },
+  )
+
   const [dropdownsIsActive, setDropdownsIsActive] = useState<
     dropDownActivator[]
   >(
-    data.map(item => {
+    fields.map(item => {
       return { id: item.id, isActive: false }
     }),
   )
+
+  console.log(fields, "fieslsllss")
 
   // handlers
 
@@ -113,7 +55,7 @@ const Articlestable: React.FC<IProps> = () => {
           ? !item.isActive
             ? { ...item, isActive: true }
             : { ...item, isActive: false }
-          : { ...item, isActive: false }
+          : { ...item, isActive: false },
       ),
     )
   }
@@ -149,13 +91,13 @@ const Articlestable: React.FC<IProps> = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {fields.map((item, index) => (
             <tr
               key={item.id}
               className='border-b border-gray-200 hover:bg-gray-200'
             >
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
-                {index + 1}
+                {!!page ? (+page - 1) * 10 + index + 1 : index + 1}
               </td>
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item.title}
@@ -164,38 +106,44 @@ const Articlestable: React.FC<IProps> = () => {
                 {item.author}
               </td>
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
-                {item.tags}
+                {item?.tagList?.map((tag, index) => (
+                  <p key={index}>
+                    {tag}
+                    <br />
+                  </p>
+                ))}
               </td>
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
-                {item.excerpt}
+                {truncateText(item?.body!, 20)}
               </td>
-              <td className='flex items-center justify-between px-4 py-5'>
-                <p className='text-paragraph_md text-light-500'>
-                  {item.created}
-                </p>
-
-                <TableActions
-                  clickhandler={() => ActionButtonHandler(item?.id)}
-                  isActive={
-                    dropdownsIsActive?.filter(
-                      activeListItem => activeListItem.id === item.id,
-                    )[0].isActive
-                  }
-                  actionList={[
-                    {
-                      title: "Edit",
-                      clickHandler: () => {
-                        console.log("click on Edit")
+              <td className='items-center justify-between px-4 py-5'>
+                <div className='inline-flex justify-between '>
+                  <p className='text-paragraph_md text-light-500'>
+                    {item?.createdAt}
+                  </p>
+                  <TableActions
+                    clickhandler={() => ActionButtonHandler(item?.id)}
+                    isActive={
+                      dropdownsIsActive?.filter(
+                        activeListItem => activeListItem.id === item.id,
+                      )[0].isActive
+                    }
+                    actionList={[
+                      {
+                        title: "Edit",
+                        clickHandler: () => {
+                          console.log("click on Edit")
+                        },
                       },
-                    },
-                    {
-                      title: "Delete",
-                      clickHandler: () => {
-                        setDeleteModalIsActive(true)
+                      {
+                        title: "Delete",
+                        clickHandler: () => {
+                          setDeleteModalIsActive(true)
+                        },
                       },
-                    },
-                  ]}
-                />
+                    ]}
+                  />
+                </div>
               </td>
             </tr>
           ))}

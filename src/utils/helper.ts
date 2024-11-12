@@ -6,7 +6,7 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }
 
-export const formatDateToLongString =(dateStr: string) => {
+export const formatDateToLongString = (dateStr: string) => {
   const date = new Date(dateStr)
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date string")
@@ -16,4 +16,12 @@ export const formatDateToLongString =(dateStr: string) => {
     month: "long",
     day: "numeric",
   })
+}
+
+export const truncateText =(text: string, limit: number): string => {
+  if (text.length <= limit) {
+    return text
+  }
+
+  return text.slice(0, limit) + " ..."
 }

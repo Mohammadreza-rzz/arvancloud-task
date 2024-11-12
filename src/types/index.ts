@@ -52,3 +52,16 @@ export type ArticlesDataType = {
   title: string
   updatedAt: string
 }
+
+export type Article = {
+  title?: string
+  author?: string
+  tagList?: (string | undefined)[]
+  createdAt?: string
+  body?: string
+  description?: string
+}
+
+export type ArticleFormValue = {
+  articles: Article[]
+}

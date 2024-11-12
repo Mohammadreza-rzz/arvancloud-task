@@ -5,12 +5,11 @@ import { PaginateLayout } from "@/ui/view"
 
 export default async function Articles() {
   const articlesData = await getAllArticles()
-  const { articlesCount } = articlesData?.data
-  console.log(articlesData, "aricledata")
+  const { articlesCount, articles } = articlesData?.data
   return (
     <main className='space-y-7'>
       <h1 className='text-heading_md text-black'>All Posts</h1>
-      <ArticleTable />
+      <ArticleTable initialArticles={articles} />
       <PaginateLayout articlesCount={articlesCount} />
     </main>
   )

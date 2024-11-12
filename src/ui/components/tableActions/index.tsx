@@ -42,7 +42,7 @@ const TableActions: React.FC<IProps> = ({
                 >
                   {item?.title}
                 </li>
-              )
+              ),
             )}
         </ul>
       )}
