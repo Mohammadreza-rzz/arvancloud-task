@@ -1,7 +1,7 @@
 import {
   DeskTopSideBar,
   MobileSideBar,
-  PaginateLayout,
+  // PaginateLayout,
   TopBar,
 } from "@/ui/view"
 
@@ -10,17 +10,16 @@ export default function ArticlesLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  console.log("lay outttttttttt")
   return (
     <div className='flex h-screen flex-col items-center justify-center'>
       <div className='w-full'>
         <TopBar />
-        <div className='flex h-[1024px] w-full [@media(max-width:1440px)]:h-[calc(100vh-66px)] [@media(max-width:768px)]:h-[calc(100vh)] '>
+        <div className='flex  h-[1024px] w-full [@media(max-width:1440px)]:h-[calc(100vh-66px)] [@media(max-width:768px)]:h-[calc(100vh)] '>
           <DeskTopSideBar />
           <MobileSideBar />
-          <div className='relative flex-1 overflow-y-auto px-2 pb-[70px] pt-6 md:px-[30px]'>
+          <div className='relative overflow-x-hidden overflow-y-auto flex-1 px-2 pt-6 md:px-[30px]'>
             {children}
-            <PaginateLayout />
+            {/* <PaginateLayout /> */}
           </div>
         </div>
       </div>

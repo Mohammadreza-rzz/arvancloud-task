@@ -7,12 +7,14 @@ import styles from "./Pagination.module.css"
 
 interface PaginationProps {
   pageCount: number
+  initialPage?: number
   onPageChange: (selectedPage: number) => void
 }
 
 const PaginationComponent: React.FC<PaginationProps> = ({
   pageCount,
   onPageChange,
+  initialPage = 0,
 }) => {
   const handlePageClick = (data: { selected: number }) => {
     const selectedPage = data.selected + 1
@@ -21,6 +23,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
 
   return (
     <ReactPaginate
+      initialPage={initialPage}
       previousLabel='<'
       nextLabel='>'
       breakLabel='...'

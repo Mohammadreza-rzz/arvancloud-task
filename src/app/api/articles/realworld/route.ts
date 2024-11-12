@@ -1,16 +1,23 @@
 import { BaseApireq } from "@/utils/interceptors"
-import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
+  //   console.log(cookieStore.getAll(), "helloooo")
   try {
     const token = req.nextUrl.searchParams.get("access_token")
-    const res = await BaseApireq.get("/user", {
+    const offset = req.nextUrl.searchParams.get("offset") ?? "0"
+    const limit = req.nextUrl.searchParams.get("limit") ?? "10"
+    console.log(offset, limit, "limit , offset")
+    const res = await BaseApireq.get("/articles", {
+      params: {
+        limit: limit,
+        offset: offset,
+      },
       headers: { Authorization: `Token ${token}` },
     })
 
     if (res.status === 200) {
-      return NextResponse.json({ data: res.data.user }, { status: 200 })
+      return NextResponse.json({ ...res.data }, { status: 200 })
     }
     return NextResponse.json(
       { message: "somthing went wrong!." },

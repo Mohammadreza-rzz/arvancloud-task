@@ -1,17 +1,36 @@
 "use client"
 
 import React from "react"
+import { useRouter } from "next/navigation"
 
 import { CustomePagination } from "@/ui/components"
 
-interface IProps {}
+interface IProps {
+  articlesCount: number
+  pageSize?: number
+  initialPage?: number
+}
 
-const PaginateLayout: React.FC<IProps> = () => {
+const PaginateLayout: React.FC<IProps> = ({
+  articlesCount,
+  pageSize = 10,
+  initialPage = 0,
+}) => {
+  const router = useRouter()
+  const onPageChange = (page: number) => {
+    if (page <= 1) {
+      router.push("/articles")
+    } else {
+      router.push(`/articles/page/${page}`)
+    }
+  }
+  const pageCount = Math.floor(articlesCount / pageSize) + 1
   return (
-    <div className='mt-16 w-full'>
+    <div className='mt-6 -translate-y-4 lg:translate-y-0 w-full'>
       <CustomePagination
-        pageCount={10}
-        onPageChange={() => console.log("hello")}
+        initialPage={initialPage}
+        pageCount={pageCount}
+        onPageChange={onPageChange}
       />
     </div>
   )
