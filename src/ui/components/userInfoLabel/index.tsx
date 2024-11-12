@@ -10,15 +10,16 @@ const UserLabel: React.FC<IProps> = ({
   classnames,
 }) => {
   const firstSlice =
-    !!username && !!username.split(" ")[0] ? username.split(" ")[0] : ""
+    !!username && !!username.split(" ")[0] ? username.split(" ")[0][0] : ""
   const secondSlice =
-    !!username && !!username.split(" ")[1] ? username.split(" ")[1] : ""
+    !!username && !!username.split(" ")[1] ? username.split(" ")[1][0] : ""
+
   return (
     <div
       className={`flex size-12 items-center justify-center rounded-full bg-red-400 text-paragraph_xl text-white ${classnames}`}
     >
       {(
-        firstSlice[0].toLocaleUpperCase() + secondSlice[0].toLocaleUpperCase()
+        firstSlice.toLocaleUpperCase() + secondSlice.toLocaleUpperCase()
       ).trim()}
     </div>
   )

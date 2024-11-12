@@ -1,8 +1,10 @@
 "use client"
-import React from "react"
+
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import React from "react"
 import { toast } from "react-toastify"
+
 import { CustomToast } from "@/ui/components"
 
 interface IProps {
@@ -16,9 +18,9 @@ const LogoutButtonContainer: React.FC<IProps> = ({ children }) => {
     if (res.status === 200) {
       toast(
         <CustomToast
-          toastId={"logout-success"}
+          toastId='logout-success'
           containerClass=''
-          header={""}
+          header=''
           description={`${res.data.message}`}
         />,
         {
@@ -36,9 +38,9 @@ const LogoutButtonContainer: React.FC<IProps> = ({ children }) => {
     } else {
       toast(
         <CustomToast
-          toastId={"logout-failed"}
+          toastId='logout-failed'
           containerClass=''
-          header={""}
+          header=''
           description={`${res.data.message}`}
         />,
         {
@@ -55,7 +57,7 @@ const LogoutButtonContainer: React.FC<IProps> = ({ children }) => {
     }
   }
   return (
-    <div className='w-fit h-fit inline-block' onClick={logOutHandler}>
+    <div className='inline-block size-fit' onClick={logOutHandler}>
       {children}
     </div>
   )

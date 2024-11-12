@@ -20,7 +20,7 @@ const LoadingUi: React.FC<IProps> = ({ classname }) => {
   return (
     <div
       className={cn(
-        "bg-blue-800/70 w-full h-full absolute top-0 left-0 z-10 flex justify-center items-center",
+        "bg-blue-500/50 w-full h-full absolute top-0 left-0 z-10 flex justify-center items-center",
         classname,
       )}
     >

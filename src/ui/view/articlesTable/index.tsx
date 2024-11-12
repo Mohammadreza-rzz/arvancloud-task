@@ -43,7 +43,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
     }),
   )
 
-  console.log(fields, "fieslsllss")
+  // console.log(fields, "fieslsllss")
 
   // handlers
 

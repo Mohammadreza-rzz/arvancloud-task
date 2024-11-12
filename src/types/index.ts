@@ -65,3 +65,12 @@ export type Article = {
 export type ArticleFormValue = {
   articles: Article[]
 }
+
+export type UserData = {
+  bio: null | string
+  email: string
+  id: number
+  image: string | null
+  token: string
+  username: string
+}

@@ -3,10 +3,15 @@ import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
+  const cookieStore = await cookies()
+  const access_token = cookieStore.get("access_token")
   try {
     const token = req.nextUrl.searchParams.get("access_token")
+
     const res = await BaseApireq.get("/user", {
-      headers: { Authorization: `Token ${token}` },
+      headers: {
+        Authorization: `Token ${!!token ? token : access_token?.value}`,
+      },
     })
 
     if (res.status === 200) {
