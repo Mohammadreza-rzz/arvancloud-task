@@ -2,16 +2,17 @@
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import type React from "react"
-import { useForm } from "react-hook-form"
 import { useTransition } from "react"
+import { useForm } from "react-hook-form"
+
 import type { registerSchemaType } from "@/types"
-import { Button, TextInput, CustomToast } from "@/ui/components"
+import { Button, TextInput } from "@/ui/components"
+import LoadingUi from "@/ui/components/loadingUi"
 import { registerAction } from "@/utils/actions"
 import { registerSchema } from "@/utils/validations/FormSchema"
-import { toast } from "react-toastify"
-import LoadingUi from "@/ui/components/loadingUi"
-import { useRouter } from "next/navigation"
+import { toastHandler } from "@/utils/helper"
 
 interface IProps {}
 
@@ -19,48 +20,6 @@ type FormValues = {
   username: string
   email: string
   password: string
-}
-
-const handleToast = (statusCode: number, message: string) => {
-  if (statusCode === 409 || statusCode === 422 || statusCode === 400) {
-    return toast(
-      <CustomToast
-        toastId={"user-exist"}
-        containerClass=''
-        header={"Register Failed!"}
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#e7cecd",
-          color: "#9f4f48",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "user-exist",
-      },
-    )
-  } else if (statusCode === 201) {
-    return toast(
-      <CustomToast
-        toastId={"register-success"}
-        containerClass=''
-        header={"Well done"}
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#E2EED8",
-          color: "#517643",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "register-success",
-      },
-    )
-  }
 }
 
 const RegisterForm: React.FC<IProps> = () => {
@@ -80,9 +39,11 @@ const RegisterForm: React.FC<IProps> = () => {
     const { email, password, username } = values
     startTransition(async () => {
       const res = await registerAction(username, password, email)
-      handleToast(!!res?.status ? res?.status : 400, res?.message!)
-      if (res?.status === 201) {
+      if (res?.status! >= 200 && res?.status! < 400) {
+        toastHandler(200, "Well done", res?.message!, "register-success")
         router.push("/login")
+      } else {
+        toastHandler(400, "Register Failed!", res?.message!, "user-exist")
       }
     })
   }
@@ -116,6 +77,7 @@ const RegisterForm: React.FC<IProps> = () => {
           }}
         />
         <TextInput
+        
           hasErrorMessage
           containerStyle='w-full'
           label='Password'

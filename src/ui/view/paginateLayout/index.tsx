@@ -1,7 +1,7 @@
 "use client"
 
-import React from "react"
 import { useRouter } from "next/navigation"
+import React from "react"
 
 import { CustomePagination } from "@/ui/components"
 
@@ -26,7 +26,7 @@ const PaginateLayout: React.FC<IProps> = ({
   }
   const pageCount = Math.floor(articlesCount / pageSize) + 1
   return (
-    <div className='mt-6 -translate-y-4 lg:translate-y-0 w-full'>
+    <div className='mt-6 w-full -translate-y-4 lg:translate-y-0'>
       <CustomePagination
         initialPage={initialPage}
         pageCount={pageCount}

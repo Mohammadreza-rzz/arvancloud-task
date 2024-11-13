@@ -14,7 +14,7 @@ const DeskTopSideBar: React.FC<IProps> = () => {
       ? null
       : pathname.includes("/articles/create")
         ? "New Article"
-        : "All Articles",
+        : "All Articles"
   )
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const DeskTopSideBar: React.FC<IProps> = () => {
         ? null
         : pathname.includes("/articles/create")
           ? "New Article"
-          : "All Articles",
+          : "All Articles"
     )
   }, [pathname])
 

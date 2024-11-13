@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = AuthRoutes.includes(nextUrl.pathname)
   const isStaticAsset = nextUrl.pathname.startsWith(staticAssets)
-  
+
   const cookieStore = await cookies()
   const accessToken = cookieStore.get("access_token")
   const isLoggedin = !!(!!accessToken && !!accessToken.value)

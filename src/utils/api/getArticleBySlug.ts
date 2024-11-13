@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios"
 import { cookies } from "next/headers"
+
 import { articlesFormatter } from "@/utils/formatter"
 
 const getAllArticles = async (slug?: string) => {
@@ -14,7 +15,7 @@ const getAllArticles = async (slug?: string) => {
             access_token: access_token?.value,
             slug,
           },
-        },
+        }
       )
       return {
         status: 200,

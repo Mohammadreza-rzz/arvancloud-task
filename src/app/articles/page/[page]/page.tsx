@@ -1,8 +1,7 @@
-import { ArticleTable } from "@/ui/view"
-import { cookies } from "next/headers"
-import { getAllArticles } from "@/utils/api"
-import { PaginateLayout } from "@/ui/view"
 import { redirect } from "next/navigation"
+
+import { ArticleTable, PaginateLayout } from "@/ui/view"
+import { getAllArticles } from "@/utils/api"
 
 type ArticlePageProps = {
   params: {

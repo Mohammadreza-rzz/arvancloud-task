@@ -14,7 +14,7 @@ const getAllArticles = async (offset?: string, limit?: string) => {
           params: {
             access_token: access_token?.value,
           },
-        },
+        }
       )
       return {
         status: 200,

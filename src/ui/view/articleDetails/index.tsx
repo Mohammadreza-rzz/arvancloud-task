@@ -5,64 +5,18 @@ import { useRouter } from "next/navigation"
 import React, { useEffect, useState, useTransition } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
-import { toast } from "react-toastify"
 
 import type { addArticleFormValues, Article, Option } from "@/types"
-import { Button, CustomToast, TextInput } from "@/ui/components"
+import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import { addNewArticleAction, editArticleAction } from "@/utils/actions"
+import { toastHandler } from "@/utils/helper"
 import { articleDetailsFormSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {
   initialTag: string[]
   initailData?: Article
   isEdit?: boolean
-}
-
-const handleToast = (
-  statusCode: number,
-  message: string = "Something went wrong, please try again later!",
-) => {
-  if (statusCode === 409 || statusCode === 422 || statusCode === 400) {
-    return toast(
-      <CustomToast
-        toastId='addArticle-faild'
-        containerClass=''
-        header='Add Article Failed!'
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#e7cecd",
-          color: "#9f4f48",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "addArticle-faild",
-      },
-    )
-  }
-  if (statusCode === 201) {
-    return toast(
-      <CustomToast
-        toastId='addArticle-success'
-        containerClass=''
-        header='Well done'
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#E2EED8",
-          color: "#517643",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "addArticle-success",
-      },
-    )
-  }
 }
 
 const Articledetails: React.FC<IProps> = ({
@@ -76,7 +30,7 @@ const Articledetails: React.FC<IProps> = ({
   const [tags, setTags] = useState<Option[]>(
     initialTag?.map((el: string) => {
       return { value: el, label: el }
-    }),
+    })
   )
   const [isClient, setIsClient] = useState<boolean>(false)
   const { control, handleSubmit, getValues, setValue } =
@@ -114,21 +68,39 @@ const Articledetails: React.FC<IProps> = ({
     startTransition(async () => {
       if (!isEdit) {
         const res = await addNewArticleAction(data)
-        handleToast(
-          res?.status ? res?.status : 400,
-          res?.message ? res?.message : " ",
-        )
-        if (res?.status === 201) {
+        if (res?.status! >= 200 && res?.status! < 400) {
+          toastHandler(
+            200,
+            "Well done",
+            res?.message ? res?.message : " ",
+            "addArticle-success"
+          )
           router.push("/articles")
+        } else {
+          toastHandler(
+            400,
+            "Add Article Failed!",
+            res?.message ? res?.message : " ",
+            "addArticle-faild"
+          )
         }
       } else {
         const res = await editArticleAction(data, initailData?.slug ?? " ")
-        handleToast(
-          res?.status ? res?.status : 400,
-          res?.message ? res?.message : " ",
-        )
-        if (res?.status === 200) {
+        if (res?.status! >= 200 && res?.status! < 400) {
+          toastHandler(
+            200,
+            "Well done",
+            res?.message ? res?.message : " ",
+            "editArticle-success"
+          )
           router.push("/articles")
+        } else {
+          toastHandler(
+            400,
+            "edit Article Failed!",
+            res?.message ? res?.message : " ",
+            "editArticle-faild"
+          )
         }
       }
     })
@@ -143,7 +115,7 @@ const Articledetails: React.FC<IProps> = ({
       setValue("description", initailData?.description ?? "")
       setValue(
         "selectedOptions",
-        initailData?.tagList ? initailData?.tagList : [],
+        initailData?.tagList ? initailData?.tagList : []
       )
     }
   }, [])
@@ -223,11 +195,11 @@ const Articledetails: React.FC<IProps> = ({
                         field.onChange(
                           selectedOptions
                             ? selectedOptions.map(option => option.value)
-                            : [],
+                            : []
                         )
                       }}
                       value={tags.filter(option =>
-                        field.value.includes(option.value),
+                        field.value.includes(option.value)
                       )}
                     />
                   )}
@@ -304,7 +276,7 @@ const Articledetails: React.FC<IProps> = ({
                       onChange={() => {
                         const newValue = field.value.includes(option.value)
                           ? field.value.filter(
-                              (val: string) => val !== option.value,
+                              (val: string) => val !== option.value
                             )
                           : [...field.value, option.value]
                         field.onChange(newValue)

@@ -22,7 +22,7 @@ const LoadingUi: React.FC<IProps> = ({ classname }) => {
     <div
       className={cn(
         "absolute left-0 top-0 z-50 flex size-full items-center justify-center bg-blue-500/50",
-        classname,
+        classname
       )}
     >
       <Lottie options={defaultOptions} height={150} width={150} />

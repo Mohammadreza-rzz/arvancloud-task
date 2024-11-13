@@ -6,62 +6,19 @@ import { useRouter } from "next/navigation"
 import type React from "react"
 import { useTransition } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
 
 import type { loginSchemaType } from "@/types"
-import { Button, CustomToast, TextInput } from "@/ui/components"
+import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import { loginAction } from "@/utils/actions"
 import { loginSchema } from "@/utils/validations/FormSchema"
+import { toastHandler } from "@/utils/helper"
 
 interface IProps {}
 
 type FormValues = {
   email: string
   password: string
-}
-
-const handleToast = (statusCode: number, message: string) => {
-  if (statusCode === 403 || statusCode === 422 || statusCode === 400) {
-    return toast(
-      <CustomToast
-        toastId='Login'
-        containerClass=''
-        header='Login Failed!'
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#e7cecd",
-          color: "#9f4f48",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "Login",
-      }
-    )
-  }
-  if (statusCode === 200) {
-    return toast(
-      <CustomToast
-        toastId='Login-success'
-        containerClass=''
-        header='Well done'
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#E2EED8",
-          color: "#517643",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "Login-success",
-      }
-    )
-  }
 }
 
 const LoginForm: React.FC<IProps> = () => {
@@ -80,12 +37,11 @@ const LoginForm: React.FC<IProps> = () => {
     const { email, password } = values
     startTransition(async () => {
       const res = await loginAction(password, email)
-      handleToast(
-        res?.status ? res?.status : 400,
-        res?.message ? res?.message : " "
-      )
-      if (res?.status === 200) {
+      if (res?.status! >= 200 && res?.status! < 400) {
+        toastHandler(200, "Well done", res?.message!, "Login - success")
         router.push("/articles")
+      } else {
+        toastHandler(400, "Login Failed!", res?.message!, "Login Failed!")
       }
     })
   }
@@ -107,6 +63,7 @@ const LoginForm: React.FC<IProps> = () => {
           }}
         />
         <TextInput
+          PasswordInput={true}
           hasErrorMessage
           containerStyle='w-full'
           label='Password'

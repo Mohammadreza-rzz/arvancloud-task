@@ -3,60 +3,17 @@
 import { useParams, useRouter } from "next/navigation"
 import React, { useState, useTransition } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
-import { toast } from "react-toastify"
 
 import type { Article, ArticleFormValue, dropDownActivator } from "@/types"
-import { CustomToast, ModalsLayout, TableActions } from "@/ui/components"
+import { ModalsLayout, TableActions } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
 import { deleteArticles } from "@/utils/api/ClinetSideRequest"
 import { truncateText } from "@/utils/helper"
+import { toastHandler } from "@/utils/helper"
 
 interface IProps {
   initialArticles: Article[]
-}
-
-const handleToast = (statusCode: number, message: string) => {
-  if (statusCode === 409 || statusCode === 422 || statusCode === 400) {
-    return toast(
-      <CustomToast
-        toastId='delete-faild'
-        containerClass=''
-        header='Delete Article Failed!'
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#e7cecd",
-          color: "#9f4f48",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "delete-faild",
-      },
-    )
-  }
-  if (statusCode === 200) {
-    return toast(
-      <CustomToast
-        toastId='delete-success'
-        containerClass=''
-        header='Well done'
-        description={`${message}`}
-      />,
-      {
-        style: {
-          backgroundColor: "#E2EED8",
-          color: "#517643",
-          minHeight: "50px",
-          minWidth: "auto",
-        },
-        isLoading: false,
-        toastId: "delete-success",
-      },
-    )
-  }
 }
 
 const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
@@ -115,7 +72,22 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
       const res = await deleteArticles(
         activeArticle?.slug ? activeArticle?.slug : " ",
       )
-      handleToast(res?.status ? res?.status : 400, res?.message)
+      if (res?.status! >= 200 && res?.status! < 400) {
+        toastHandler(
+          200,
+          "Well done",
+          res?.message ? res?.message : " ",
+          "delete-success",
+        )
+        router.push("/articles")
+      } else {
+        toastHandler(
+          400,
+          "Delete Article Failed!",
+          res?.message ? res?.message : " ",
+          "deleteArticle-faild",
+        )
+      }
       closeDeleteModal()
       if (res?.status === 200) {
         if (page) {

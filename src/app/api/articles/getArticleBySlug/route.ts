@@ -16,12 +16,12 @@ export async function GET(req: NextRequest) {
     }
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 },
+      { status: 400 }
     )
   } catch (error) {
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 },
+      { status: 400 }
     )
   }
 }

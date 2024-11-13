@@ -19,13 +19,13 @@ export async function DELETE(req: NextRequest) {
     }
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 },
+      { status: 400 }
     )
   } catch (error) {
     if (error instanceof AxiosError && error.response) {
       return NextResponse.json(
         { message: error.response?.data?.message },
-        { status: 422 },
+        { status: 422 }
       )
     }
   }

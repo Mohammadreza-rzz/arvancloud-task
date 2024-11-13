@@ -1,9 +1,9 @@
 import * as Yup from "yup"
 
 import type {
+  articleDetailsFormSchemaType,
   loginSchemaType,
   registerSchemaType,
-  articleDetailsFormSchemaType,
 } from "@/types"
 
 export const loginSchema = Yup.object<loginSchemaType>({

@@ -9,7 +9,7 @@ import { BaseApireq } from "../interceptors"
 
 const EditArticleAction = async (
   formData: addArticleFormValues,
-  slug: string,
+  slug: string
 ) => {
   try {
     const cookieStore = await cookies()

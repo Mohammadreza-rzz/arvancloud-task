@@ -28,7 +28,7 @@ const MobileSidbar: React.FC<IProps> = () => {
       ? null
       : pathname.includes("/articles/create")
         ? "New Article"
-        : "All Articles",
+        : "All Articles"
   )
 
   // handlers
@@ -46,7 +46,7 @@ const MobileSidbar: React.FC<IProps> = () => {
         ? null
         : pathname.includes("/articles/create")
           ? "New Article"
-          : "All Articles",
+          : "All Articles"
     )
   }, [pathname])
 

@@ -1,6 +1,8 @@
-import { BaseApireq } from "@/utils/interceptors"
 import { cookies } from "next/headers"
-import { NextRequest, NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server"
+
+import { BaseApireq } from "@/utils/interceptors"
 
 export async function GET(req: NextRequest) {
   const cookieStore = await cookies()
@@ -10,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const res = await BaseApireq.get("/user", {
       headers: {
-        Authorization: `Token ${!!token ? token : access_token?.value}`,
+        Authorization: `Token ${token || access_token?.value}`,
       },
     })
 
@@ -19,12 +21,12 @@ export async function GET(req: NextRequest) {
     }
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 },
+      { status: 400 }
     )
   } catch (error) {
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 },
+      { status: 400 }
     )
   }
 }
