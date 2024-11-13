@@ -73,4 +73,14 @@ export type UserData = {
   image: string | null
   token: string
   username: string
+
+}
+
+
+export interface addArticleFormValues {
+  selectedOptions: string[]
+  addArticleBox: string
+  title: string
+  description: string
+  body: string
 }
