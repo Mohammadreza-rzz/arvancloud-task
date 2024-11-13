@@ -137,7 +137,7 @@ const Articledetails: React.FC<IProps> = ({
   //   useEffects
   useEffect(() => {
     setIsClient(true)
-    if (!!initailData) {
+    if (initailData) {
       setValue("title", initailData?.title ?? "")
       setValue("body", initailData?.body ?? "")
       setValue("description", initailData?.description ?? "")

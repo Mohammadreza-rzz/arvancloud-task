@@ -1,7 +1,8 @@
 import React from "react"
-import { cn } from "@/utils/helper"
 import Lottie from "react-lottie"
+
 import * as animationData from "@/assets/lottie/loading.json"
+import { cn } from "@/utils/helper"
 
 interface IProps {
   classname?: string
@@ -10,7 +11,7 @@ interface IProps {
 const defaultOptions = {
   loop: true,
   autoplay: true,
-  animationData: animationData,
+  animationData,
   rendererSettings: {
     preserveAspectRatio: "xMidYMid slice",
   },
@@ -20,7 +21,7 @@ const LoadingUi: React.FC<IProps> = ({ classname }) => {
   return (
     <div
       className={cn(
-        "bg-blue-500/50 w-full h-full absolute top-0 left-0 z-10 flex justify-center items-center",
+        "absolute left-0 top-0 z-50 flex size-full items-center justify-center bg-blue-500/50",
         classname,
       )}
     >
