@@ -116,6 +116,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
         activeArticle?.slug ? activeArticle?.slug : " ",
       )
       handleToast(res?.status ? res?.status : 400, res?.message)
+      closeDeleteModal()
       if (res?.status === 200) {
         if (page) {
           router.push(

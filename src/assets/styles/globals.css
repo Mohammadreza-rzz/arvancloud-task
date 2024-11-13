@@ -13,7 +13,12 @@
 }
 
 body {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
   font-family: HelveticaNeue, sans-serif;
+}
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
 }
 
 .click_Effect {

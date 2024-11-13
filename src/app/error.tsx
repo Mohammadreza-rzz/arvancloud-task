@@ -1,10 +1,19 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect } from "react"
 
 import { Button } from "@/ui/components"
 
-export default function Error() {
+interface ErrorProps {
+  error: Error
+  reset: () => void
+}
+
+export default function Error({ error, reset }: ErrorProps) {
+  useEffect(() => {
+    console.error("Logging error:", error)
+  }, [error])
   return (
     <div className='fixed left-0 flex h-screen w-screen flex-col items-center justify-center bg-[url("/images/404.jpg")] bg-cover bg-center bg-no-repeat'>
       <h1 className='text-9xl font-extrabold tracking-widest text-gray-100'>
