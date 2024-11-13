@@ -3,15 +3,61 @@
 import { useParams, useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
 import type { Article, ArticleFormValue, dropDownActivator } from "@/types"
-import { ModalsLayout, TableActions } from "@/ui/components"
+import { ModalsLayout, TableActions , CustomToast } from "@/ui/components"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
 import { truncateText } from "@/utils/helper"
 import { deleteArticles } from "@/utils/api/ClinetSideRequest"
+import { getAllArticles } from "@/utils/api/ClinetSideRequest"
 
 interface IProps {
   initialArticles: Article[]
+}
+
+
+
+const handleToast = (statusCode: number, message: string) => {
+  if (statusCode === 409 || statusCode === 422 || statusCode === 400) {
+    return toast(
+      <CustomToast
+        toastId={"delete-faild"}
+        containerClass=''
+        header={"Delete Article Failed!"}
+        description={`${message}`}
+      />,
+      {
+        style: {
+          backgroundColor: "#e7cecd",
+          color: "#9f4f48",
+          minHeight: "50px",
+          minWidth: "auto",
+        },
+        isLoading: false,
+        toastId: "delete-faild",
+      },
+    )
+  } else if (statusCode === 200) {
+    return toast(
+      <CustomToast
+        toastId={"delete-success"}
+        containerClass=''
+        header={"Well done"}
+        description={`${message}`}
+      />,
+      {
+        style: {
+          backgroundColor: "#E2EED8",
+          color: "#517643",
+          minHeight: "50px",
+          minWidth: "auto",
+        },
+        isLoading: false,
+        toastId: "delete-success",
+      },
+    )
+  }
 }
 
 const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
@@ -22,7 +68,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
 
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
   const [activeArticle, setActiveArticle] = useState<Article>()
-  const { control, register } = useForm<ArticleFormValue>({
+  const { control, register , setValue } = useForm<ArticleFormValue>({
     defaultValues: {
       articles: initialArticles,
     },
@@ -69,8 +115,23 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
     const res = await deleteArticles(
       !!activeArticle?.slug ? activeArticle?.slug : " ",
     )
-    console.log(res, "ress")
+    if (res?.status === 200 ) {
+        const offest = (+page! - 1) * 10
+        const articlesData = await getAllArticles(String(offest), "10")
+        console.log(articlesData , 'articles')
+        const { articles } = articlesData?.data
+        setValue('articles',articles)
+        handleToast(!!res?.status ? res?.status : 400, res?.message!)
+        // console.log(activeArticle)
+    }
+    
+    else {
+      handleToast(!!res?.status ? res?.status : 400, res?.message!)
+    }
+  
   }
+
+  console.log(activeArticle , 'activeArticles');
 
   //   useEffects
   return (

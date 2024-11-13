@@ -1,17 +1,20 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
+import { cookies } from "next/headers"
 
 import { BaseApireq } from "@/utils/interceptors"
 
 export async function DELETE(req: NextRequest) {
   try {
-    const token = req.nextUrl.searchParams.get("access_token")
+    
+    const cookieStore =  await cookies()
+    const access_token = cookieStore.get('access_token')
     const slug = req.nextUrl.searchParams.get("slug")
     const res = await BaseApireq.delete(`/articles/${slug}`, {
-      headers: { Authorization: `Token ${token}` },
+      headers: { Authorization: `Token ${access_token?.value}` },
     })
 
-    if (res.status === 200) {
+    if (res.status === 204) {
       return NextResponse.json({ ...res.data }, { status: 200 })
     }
     return NextResponse.json(
