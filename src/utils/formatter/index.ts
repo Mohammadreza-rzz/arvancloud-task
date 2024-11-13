@@ -1,5 +1,6 @@
-import { ArticlesDataType } from "@/types"
+import type { ArticlesDataType } from "@/types"
 import { formatDateToLongString } from "@/utils/helper"
+
 export const articlesFormatter = (rowData: ArticlesDataType[]) => {
   return rowData.map(el => {
     return {
@@ -9,6 +10,7 @@ export const articlesFormatter = (rowData: ArticlesDataType[]) => {
       createdAt: formatDateToLongString(el?.createdAt) ?? "",
       body: el?.body ?? "",
       description: el?.description ?? "",
+      slug: el?.slug ?? "",
     }
   })
 }

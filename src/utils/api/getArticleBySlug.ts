@@ -1,18 +1,18 @@
 import axios, { AxiosError } from "axios"
 import { cookies } from "next/headers"
-
 import { articlesFormatter } from "@/utils/formatter"
 
-const getAllArticles = async (offset?: string, limit?: string) => {
+const getAllArticles = async (slug?: string) => {
   try {
     const cookieStore = await cookies()
     const access_token = cookieStore.get("access_token")
     if (access_token?.value) {
       const res = await axios.get(
-        `${process.env.NEXT_BASE_URL}/api/articles/realworld?${offset ? `offset=${offset}` : ""}${limit ? `&limit=${limit}` : ""}`,
+        `${process.env.NEXT_BASE_URL}/api/articles/getArticleBySlug`,
         {
           params: {
             access_token: access_token?.value,
+            slug,
           },
         },
       )
@@ -20,8 +20,7 @@ const getAllArticles = async (offset?: string, limit?: string) => {
         status: 200,
         message: "success",
         data: {
-          articles: articlesFormatter(res.data.articles),
-          articlesCount: res.data?.articlesCount ?? 0,
+          article: articlesFormatter([res.data.article]),
         },
       }
     }

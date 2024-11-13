@@ -6,13 +6,8 @@ import { BaseApireq } from "@/utils/interceptors"
 export async function GET(req: NextRequest) {
   try {
     const token = req.nextUrl.searchParams.get("access_token")
-    const offset = req.nextUrl.searchParams.get("offset") ?? "0"
-    const limit = req.nextUrl.searchParams.get("limit") ?? "10"
-    const res = await BaseApireq.get("/articles", {
-      params: {
-        limit,
-        offset,
-      },
+    const slug = req.nextUrl.searchParams.get("slug")
+    const res = await BaseApireq.get(`/articles/${slug}`, {
       headers: { Authorization: `Token ${token}` },
     })
 
@@ -21,12 +16,12 @@ export async function GET(req: NextRequest) {
     }
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 }
+      { status: 400 },
     )
   } catch (error) {
     return NextResponse.json(
       { message: "somthing went wrong!." },
-      { status: 400 }
+      { status: 400 },
     )
   }
 }

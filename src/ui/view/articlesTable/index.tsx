@@ -1,14 +1,13 @@
 "use client"
 
+import { useParams, useRouter } from "next/navigation"
 import React, { useState } from "react"
+import { useFieldArray, useForm } from "react-hook-form"
 
-import type { Article, dropDownActivator } from "@/types"
+import type { Article, ArticleFormValue, dropDownActivator } from "@/types"
 import { ModalsLayout, TableActions } from "@/ui/components"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
-import { useForm, useFieldArray } from "react-hook-form"
-import { ArticleFormValue } from "@/types"
 import { truncateText } from "@/utils/helper"
-import { useParams } from "next/navigation"
 
 interface IProps {
   initialArticles: Article[]
@@ -17,9 +16,8 @@ interface IProps {
 const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
   // states & Logic
   const params = useParams()
+  const router = useRouter()
   const { page } = params
-
-  console.log([page], "pageNumber")
 
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
 
@@ -97,7 +95,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
               className='border-b border-gray-200 hover:bg-gray-200'
             >
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
-                {!!page ? (+page - 1) * 10 + index + 1 : index + 1}
+                {page ? (+page - 1) * 10 + index + 1 : index + 1}
               </td>
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item.title}
@@ -107,14 +105,14 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
               </td>
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
                 {item?.tagList?.map((tag, index) => (
-                  <p key={index}>
+                  <p key={Math.random()}>
                     {tag}
                     <br />
                   </p>
                 ))}
               </td>
               <td className='px-4 py-5 text-paragraph_md text-light-500'>
-                {truncateText(item?.body!, 20)}
+                {item?.body ? truncateText(item?.body, 20) : ""}
               </td>
               <td className='items-center justify-between px-4 py-5'>
                 <div className='inline-flex justify-between '>
@@ -132,7 +130,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
                       {
                         title: "Edit",
                         clickHandler: () => {
-                          console.log("click on Edit")
+                          router.push(`/articles/edit/${item?.slug}`)
                         },
                       },
                       {

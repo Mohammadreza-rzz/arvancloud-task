@@ -7,14 +7,16 @@ import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
 import { toast } from "react-toastify"
 
-import type { addArticleFormValues, Option } from "@/types"
+import type { addArticleFormValues, Article, Option } from "@/types"
 import { Button, CustomToast, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
-import { addNewArticleAction } from "@/utils/actions"
+import { addNewArticleAction, editArticleAction } from "@/utils/actions"
 import { articleDetailsFormSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {
   initialTag: string[]
+  initailData?: Article
+  isEdit?: boolean
 }
 
 const handleToast = (
@@ -63,7 +65,11 @@ const handleToast = (
   }
 }
 
-const Articledetails: React.FC<IProps> = ({ initialTag }) => {
+const Articledetails: React.FC<IProps> = ({
+  initialTag,
+  initailData,
+  isEdit = false,
+}) => {
   // states & Logic
   const router = useRouter()
   const [ispending, startTransition] = useTransition()
@@ -106,22 +112,40 @@ const Articledetails: React.FC<IProps> = ({ initialTag }) => {
 
   const onSubmit = (data: addArticleFormValues) => {
     startTransition(async () => {
-      const res = await addNewArticleAction(data)
-      handleToast(
-        res?.status ? res?.status : 400,
-        res?.message ? res?.message : " ",
-      )
-      if (res?.status === 201) {
-        router.push("/articles")
+      if (!isEdit) {
+        const res = await addNewArticleAction(data)
+        handleToast(
+          res?.status ? res?.status : 400,
+          res?.message ? res?.message : " ",
+        )
+        if (res?.status === 201) {
+          router.push("/articles")
+        }
+      } else {
+        const res = await editArticleAction(data, initailData?.slug ?? " ")
+        handleToast(
+          res?.status ? res?.status : 400,
+          res?.message ? res?.message : " ",
+        )
+        if (res?.status === 200) {
+          router.push("/articles")
+        }
       }
-      console.log(res, "response in clinet")
     })
   }
 
   //   useEffects
-
   useEffect(() => {
     setIsClient(true)
+    if (!!initailData) {
+      setValue("title", initailData?.title ?? "")
+      setValue("body", initailData?.body ?? "")
+      setValue("description", initailData?.description ?? "")
+      setValue(
+        "selectedOptions",
+        initailData?.tagList ? initailData?.tagList : [],
+      )
+    }
   }, [])
 
   return (
@@ -262,7 +286,7 @@ const Articledetails: React.FC<IProps> = ({ initialTag }) => {
             />
           </div>
           <div className='mt-4 h-[355px] space-y-4 overflow-auto rounded-[4px] border border-light-100 bg-white px-4 pb-7 pt-4'>
-            {tags.map(option => (
+            {tags?.map(option => (
               <Controller
                 key={option.value}
                 name='selectedOptions'

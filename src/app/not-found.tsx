@@ -19,7 +19,7 @@ export default function Custom404() {
           <span className='absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5  group-hover:translate-y-0 group-hover:translate-x-0'></span>
 
           <Button
-            classnames='relative block px-8 py-3 bg-white border border-current bg-warning-100/90 hover:bg-warning-100'
+            classnames='relative block px-8 py-3 border border-current bg-warning-100/90 hover:bg-warning-100'
             label='Go to Dahsboar'
             type='button'
           />

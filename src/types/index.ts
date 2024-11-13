@@ -54,12 +54,13 @@ export type ArticlesDataType = {
 }
 
 export type Article = {
-  title?: string
-  author?: string
-  tagList?: (string | undefined)[]
-  createdAt?: string
-  body?: string
-  description?: string
+  title: string
+  author: string
+  tagList: string[]
+  createdAt: string
+  body: string
+  description: string
+  slug: string
 }
 
 export type ArticleFormValue = {
@@ -73,9 +74,7 @@ export type UserData = {
   image: string | null
   token: string
   username: string
-
 }
-
 
 export interface addArticleFormValues {
   selectedOptions: string[]

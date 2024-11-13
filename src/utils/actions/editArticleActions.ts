@@ -7,11 +7,14 @@ import type { addArticleFormValues } from "@/types"
 
 import { BaseApireq } from "../interceptors"
 
-const addNewArticleAction = async (formData: addArticleFormValues) => {
+const EditArticleAction = async (
+  formData: addArticleFormValues,
+  slug: string,
+) => {
   try {
     const cookieStore = await cookies()
     const access_token = cookieStore.get("access_token")
-
+    console.log(formData, slug)
     if (access_token && access_token.value) {
       const reqBody = {
         article: {
@@ -22,13 +25,13 @@ const addNewArticleAction = async (formData: addArticleFormValues) => {
         },
       }
 
-      const res = await BaseApireq.post("/articles", reqBody, {
+      const res = await BaseApireq.put(`/articles/${slug}`, reqBody, {
         headers: {
           Authorization: `Token ${access_token.value}`,
         },
       })
-      if (res.status === 201) {
-        return { status: 201, message: "Article added successfuly" }
+      if (res.status === 200) {
+        return { status: 200, message: "Article edited successfuly" }
       }
     }
     return {
@@ -51,4 +54,4 @@ const addNewArticleAction = async (formData: addArticleFormValues) => {
   }
 }
 
-export default addNewArticleAction
+export default EditArticleAction
