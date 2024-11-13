@@ -14,7 +14,7 @@ export default function ArticlesLayout({
     <div className='flex h-screen flex-col items-center justify-center'>
       <div className='w-full'>
         <TopBar />
-        <div className='flex  h-[1024px] w-full [@media(max-width:1440px)]:h-[calc(100vh-66px)] [@media(max-width:768px)]:h-[calc(100vh)] '>
+        <div className='flex  h-[1024px] w-full [@media(max-height:1089px)]:h-[calc(100vh-66px)] [@media(max-width:767px)]:h-[calc(100vh)]'>
           <DeskTopSideBar />
           <MobileSideBar />
           <div className='relative flex-1 overflow-y-auto overflow-x-hidden px-2 pt-6 md:px-[30px]'>
