@@ -8,6 +8,7 @@ import type { Article, ArticleFormValue, dropDownActivator } from "@/types"
 import { ModalsLayout, TableActions } from "@/ui/components"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
 import { truncateText } from "@/utils/helper"
+import { deleteArticles } from "@/utils/api/ClinetSideRequest"
 
 interface IProps {
   initialArticles: Article[]
@@ -20,7 +21,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
   const { page } = params
 
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
-
+  const [activeArticle, setActiveArticle] = useState<Article>()
   const { control, register } = useForm<ArticleFormValue>({
     defaultValues: {
       articles: initialArticles,
@@ -56,10 +57,19 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
           : { ...item, isActive: false },
       ),
     )
+    setActiveArticle(fields.filter(el => el.id == id)[0])
   }
 
   const closeDeleteModal = () => {
     setDeleteModalIsActive(false)
+  }
+
+  const deleteAction = async () => {
+    // console.log(slug, "slugg")
+    const res = await deleteArticles(
+      !!activeArticle?.slug ? activeArticle?.slug : " ",
+    )
+    console.log(res, "ress")
   }
 
   //   useEffects
@@ -153,9 +163,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
             <DeleteArticlesModal
               NoButtonHandler={closeDeleteModal}
               closeButtonHandler={closeDeleteModal}
-              yesButtonHandler={() => {
-                console.log("yes delete items")
-              }}
+              yesButtonHandler={deleteAction}
             />
           </div>
         </ModalsLayout>

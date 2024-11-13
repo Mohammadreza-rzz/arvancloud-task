@@ -14,7 +14,6 @@ const EditArticleAction = async (
   try {
     const cookieStore = await cookies()
     const access_token = cookieStore.get("access_token")
-    console.log(formData, slug)
     if (access_token && access_token.value) {
       const reqBody = {
         article: {
