@@ -30,7 +30,7 @@ const Articledetails: React.FC<IProps> = ({
   const [tags, setTags] = useState<Option[]>(
     initialTag?.map((el: string) => {
       return { value: el, label: el }
-    })
+    }),
   )
   const [isClient, setIsClient] = useState<boolean>(false)
   const { control, handleSubmit, getValues, setValue } =
@@ -75,7 +75,7 @@ const Articledetails: React.FC<IProps> = ({
               200,
               "Well done",
               res?.message ? res?.message : " ",
-              "addArticle-success"
+              "addArticle-success",
             )
             router.push("/articles")
           } else {
@@ -83,7 +83,7 @@ const Articledetails: React.FC<IProps> = ({
               400,
               "Add Article Failed!",
               res?.message ? res?.message : " ",
-              "addArticle-faild"
+              "addArticle-faild",
             )
           }
         }
@@ -95,7 +95,7 @@ const Articledetails: React.FC<IProps> = ({
               200,
               "Well done",
               res?.message ? res?.message : " ",
-              "editArticle-success"
+              "editArticle-success",
             )
             router.push("/articles")
           } else {
@@ -103,7 +103,7 @@ const Articledetails: React.FC<IProps> = ({
               400,
               "edit Article Failed!",
               res?.message ? res?.message : " ",
-              "editArticle-faild"
+              "editArticle-faild",
             )
           }
         }
@@ -120,7 +120,7 @@ const Articledetails: React.FC<IProps> = ({
       setValue("description", initailData?.description ?? "")
       setValue(
         "selectedOptions",
-        initailData?.tagList ? initailData?.tagList : []
+        initailData?.tagList ? initailData?.tagList : [],
       )
     }
   }, [])
@@ -201,12 +201,16 @@ const Articledetails: React.FC<IProps> = ({
                         field.onChange(
                           selectedOptions
                             ? selectedOptions.map(option => option.value)
-                            : []
+                            : [],
                         )
                       }}
-                      value={tags.filter(option =>
-                        field.value.includes(option.value)
-                      )}
+                      value={
+                        !!tags && tags.length
+                          ? tags?.filter(option =>
+                              field.value.includes(option.value),
+                            )
+                          : []
+                      }
                     />
                   )}
                 />
@@ -283,7 +287,7 @@ const Articledetails: React.FC<IProps> = ({
                       onChange={() => {
                         const newValue = field.value.includes(option.value)
                           ? field.value.filter(
-                              (val: string) => val !== option.value
+                              (val: string) => val !== option.value,
                             )
                           : [...field.value, option.value]
                         field.onChange(newValue)
