@@ -8,13 +8,12 @@ interface IProps {}
 
 const DeskTopSideBar: React.FC<IProps> = () => {
   const pathname = usePathname()
-
   const [activeTab, setActiveTab] = useState(
     pathname.includes("/articles/edit")
       ? null
       : pathname.includes("/articles/create")
         ? "New Article"
-        : "All Articles"
+        : "All Articles",
   )
 
   useEffect(() => {
@@ -23,7 +22,7 @@ const DeskTopSideBar: React.FC<IProps> = () => {
         ? null
         : pathname.includes("/articles/create")
           ? "New Article"
-          : "All Articles"
+          : "All Articles",
     )
   }, [pathname])
 

@@ -4,9 +4,9 @@ import { ArticleTable, PaginateLayout } from "@/ui/view"
 import { getAllArticles } from "@/utils/api"
 
 type ArticlePageProps = {
-  params: {
+  params: Promise<{
     page: string
-  }
+  }>
 }
 
 export default async function Articles({ params }: ArticlePageProps) {
@@ -17,7 +17,6 @@ export default async function Articles({ params }: ArticlePageProps) {
   const offest = (+page - 1) * 10
   const articlesData = await getAllArticles(String(offest), "10")
   const { articlesCount, articles } = articlesData?.data
-  console.log(articlesCount, "articlesdata")
 
   return (
     <main className='space-y-7'>

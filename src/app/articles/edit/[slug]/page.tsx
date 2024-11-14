@@ -1,11 +1,13 @@
 import { ArticleDetailes } from "@/ui/view"
 import { getArticleBySlug, getTag } from "@/utils/api"
 
-export default async function EditArticles({
-  params,
-}: {
-  params: { slug: string }
-}) {
+type ArticleEditPageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+export default async function EditArticles({ params }: ArticleEditPageProps) {
   const { slug } = await params
   const tags = await getTag()
   const articledata = await getArticleBySlug(slug)
