@@ -47,103 +47,76 @@ Follow these steps to get the project up and running locally:
    ```bash
    git clone https://github.com/username/project-name.git
 
-2\. Navigate to the project directory
+2. **Navigate to the Project Directory**
 
-Move into the project directory:
+   Move into the project directory:
 
-bash
+   ```bash
+   cd project-name
 
-Copy code
+3. **Install Dependencies**
 
-cd project-name
+   To install the required packages for the project, use:
 
-3\. Install dependencies
+   ```bash
+   npm install
 
-To install the required packages for the project, use:
 
-bash
 
-Copy code
-
-npm install
+# Project Dependencies Breakdown
 
 This will install both dependencies and devDependencies. Here's a quick breakdown of the packages that will be installed:
 
-Dependencies:
+## Dependencies
 
-@hookform/resolvers: Used for integrating validation with react-hook-form.
+| Package                 | Purpose                                                                                              |
+|-------------------------|------------------------------------------------------------------------------------------------------|
+| `@hookform/resolvers`   | Integrates validation with `react-hook-form`.                                                        |
+| `axios`                 | A promise-based HTTP client for making API requests.                                                 |
+| `bcryptjs`              | Library for hashing passwords.                                                                       |
+| `clsx`                  | Utility for conditionally applying CSS class names.                                                  |
+| `jsonwebtoken`          | Used for working with JSON Web Tokens for secure user sessions.                                      |
+| `mongoose`              | MongoDB object modeling for Node.js.                                                                 |
+| `next`                  | React framework for building server-side rendered and static web applications.                       |
+| `react`, `react-dom`    | Core libraries for React.                                                                            |
+| `react-hook-form`       | Library for handling form validation and state.                                                      |
+| `react-lottie`          | Library for integrating Lottie animations in React.                                                  |
+| `react-paginate`        | Pagination component for React.                                                                      |
+| `react-select`          | Flexible and customizable select input component for React.                                          |
+| `react-toastify`        | Library for displaying notifications.                                                                |
+| `tailwind-merge`        | Utility for merging Tailwind CSS class names.                                                        |
+| `yup`                   | Schema validation library.                                                                           |
 
-axios: A promise-based HTTP client for making API requests.
+## DevDependencies
 
-bcryptjs: A library for hashing passwords.
-
-clsx: A utility for conditionally applying CSS class names.
-
-jsonwebtoken: Used for working with JSON Web Tokens.
-
-mongoose: MongoDB object modeling for Node.js.
-
-next: The React framework for building server-side rendered and static web applications.
-
-react, react-dom: Core libraries for React.
-
-react-hook-form: A library for handling form validation and state.
-
-react-lottie: A library for integrating Lottie animations in React.
-
-react-paginate: A pagination component for React.
-
-react-select: A flexible and customizable select input component for React.
-
-react-toastify: A library for showing notifications.
-
-tailwind-merge: A utility for merging Tailwind CSS class names.
-
-yup: A schema validation library.
-
-DevDependencies:
-
-@commitlint/cli: CLI tool for enforcing conventional commit messages.
-
-@commitlint/config-conventional: Configuration for commitlint to follow conventional commit standards.
-
-@types/\*: TypeScript types for various libraries like bcryptjs, jsonwebtoken, node, react, react-dom, and react-lottie.
-
-eslint, eslint-config-airbnb: Code linting tools and Airbnb's JavaScript style guide.
-
-eslint-plugin-\*: Plugins for linting specific patterns, such as unused imports and React hooks.
-
-postcss: A tool for transforming CSS with JavaScript plugins.
-
-prettier, prettier-plugin-tailwindcss: Code formatting tools, including a plugin for Tailwind CSS support.
-
-tailwindcss: A utility-first CSS framework.
-
-typescript: The TypeScript compiler for type-checking.
+| Package                          | Purpose                                                                                              |
+|----------------------------------|------------------------------------------------------------------------------------------------------|
+| `@commitlint/cli`                | CLI tool for enforcing conventional commit messages.                                                 |
+| `@commitlint/config-conventional`| Configuration for `commitlint` to follow conventional commit standards.                              |
+| `@types/*`                       | TypeScript types for various libraries (e.g., `bcryptjs`, `jsonwebtoken`, `node`, `react`, etc.).    |
+| `eslint`, `eslint-config-airbnb` | Code linting tools and Airbnb's JavaScript style guide for consistent coding standards.              |
+| `eslint-plugin-*`                | Plugins for linting specific patterns, such as unused imports and React hooks.                      |
+| `postcss`                        | Tool for transforming CSS with JavaScript plugins.                                                  |
+| `prettier`, `prettier-plugin-tailwindcss` | Code formatting tools, including a plugin for Tailwind CSS support.                |
+| `tailwindcss`                    | Utility-first CSS framework for styling.                                                             |
+| `typescript`                     | TypeScript compiler for type-checking and improving code reliability.                               |
 
 If you encounter any issues during installation, try running:
 
-bash
-
-Copy code
-
+```bash
 npm install --force
 
 This will bypass potential dependency conflicts and force the installation.
 
-4\. Set up environment variables
+## 4. Set up Environment Variables
 
-Create a .env.local file in the root directory of your project.
+1. Create a `.env.local` file in the root directory of your project.
 
-Add the following environment variables to the .env.local file:
+2. Add the following environment variables to the `.env.local` file:
 
-bash
-
-Copy code
-
-NEXT\_PUBLIC\_BASE\_URL=http://5.34.201.164:3000/api
-
-NEXT\_BASE\_URL=http://localhost:3000
+   ```bash
+   NEXT_PUBLIC_BASE_URL=http://5.34.201.164:3000/api
+   NEXT_BASE_URL=http://localhost:3000
 
 NEXT\_PUBLIC\_BASE\_URL should be set to the URL of your API (this is for frontend API calls).
 
@@ -151,15 +124,10 @@ NEXT\_BASE\_URL should be set to the address where your project is running local
 
 If you plan to use the API integrated into the project, add the following additional variables for MongoDB and JWT authentication:
 
-bash
-
-Copy code
-
-MONGODB\_URI=mongodb+srv://ArvanCloud:vXMNbsl2qComToXX@cluster0.awink.mongodb.net/
-
-JWT\_SECRET=86d6648fa75e4adab0e1964ee1080b1de225bbb83b64641065b0a5f97f62565b
-
-JWT\_REFRESH\_SECRET=9f5a33a7a2d9a9975b4c26cab01bae2e217f0c9eea5c641b0488b1eedeb6a1ab
+   ```bash
+   MONGODB\_URI=mongodb+srv://ArvanCloud:vXMNbsl2qComToXX@cluster0.awink.mongodb.net/
+   JWT\_SECRET=86d6648fa75e4adab0e1964ee1080b1de225bbb83b64641065b0a5f97f62565b
+   JWT\_REFRESH\_SECRET=9f5a33a7a2d9a9975b4c26cab01bae2e217f0c9eea5c641b0488b1eedeb6a1ab
 
 MONGODB\_URI: The URI for your MongoDB connection.
 
@@ -167,19 +135,16 @@ JWT\_SECRET: The secret key used to sign JWT tokens.
 
 JWT\_REFRESH\_SECRET: The secret key used for refresh tokens.
 
-5\. Run the development server
+## 5. Run the development server
 
 Start the development server with the following command:
 
-bash
-
-Copy code
-
-npm run dev
+   ```bash
+   npm run dev
 
 Once the server is running, open http://localhost:3000 in your browser to view the application.
 
-SSR (Server-Side Rendering) in the Project
+## SSR (Server-Side Rendering) in the Project
 
 In this project, SSR (Server-Side Rendering) is implemented to render content on the server before sending it to the client. This method is used to improve the SEO of the application and reduce the time it takes for the user to see the page content. When a user makes a request, the server prepares the page with all the necessary data, ensuring the user receives a fully rendered page immediately.
 
@@ -189,11 +154,11 @@ Main Branch
 
 SSR-RealWorld Branch
 
-How SSR is Implemented:
+### How SSR is Implemented:
 
 In the SSR-RealWorld branch, the project uses server-side rendering to render the content on the server. The following approach is taken for authentication using cookie-based authentication:
 
-Authentication Flow:
+### Authentication Flow:
 
 When a user logs in, the login action (server-side method) is triggered. The API returns a token upon successful login.
 
@@ -203,7 +168,7 @@ As long as the cookie is valid, the user has access to the protected content of 
 
 Once the cookie expires (after one day), it is automatically removed, and the user is logged out of the application.
 
-Middleware for Authentication:
+### Middleware for Authentication:
 
 This authentication mechanism is handled through middleware.
 
@@ -213,13 +178,13 @@ Routes like register and login are accessible without authentication, while prot
 
 The middleware verifies whether a valid token exists in the cookies before granting access to protected routes.
 
-Route Handling:
+### Route Handling:
 
 To define which routes are public and which are protected, you can refer to the route definitions in the route.ts file located in the root directory.
 
 You can customize the routes and their access control, such as marking routes as public or protected based on the user's authentication state.
 
-Server-Side Requests:
+### Server-Side Requests:
 
 All GET requests are sent from the server side, which means the data is fetched and processed on the server before being rendered to the user.
 
@@ -231,13 +196,13 @@ CSR (Client-Side Rendering) in the Project
 
 In the CSR-RealWorld branch, the project is implemented using a standard React approach, where Client-Side Rendering (CSR) is used. In CSR, the rendering of content happens entirely on the client side, and the application relies heavily on JavaScript to display content. This approach is more dynamic and responsive but can be slower for the initial load, as the page is built entirely in the browser after JavaScript is loaded.
 
-How CSR is Implemented:
+## How CSR is Implemented:
 
 In this version, the CSR-RealWorld branch uses local storage or session storage for authentication and client-side routing. Here's how it works:
 
 Authentication with Local Storage or Session Storage:
 
-Token Storage:
+### Token Storage:
 
 Instead of using server-side cookies as in SSR, in the CSR approach, the authentication token is stored on the client side, either in localStorage or sessionStorage.
 
@@ -245,23 +210,23 @@ localStorage persists the token even after the browser is closed, while sessionS
 
 The stored token is used to authenticate the user for future API requests and protect routes.
 
-Protected Routes:
+### Protected Routes:
 
 In CSR, each route that needs protection must check the authentication token independently.
 
 For every protected route, a check is made to see if the token exists in the storage (either localStorage or sessionStorage). If the token is present and valid, the user is allowed to access the route; otherwise, they are redirected to the login page.
 
-API Requests:
+### API Requests:
 
 In CSR, all API requests are made from the client side, meaning the request is sent directly from the user's browser. This is done through React Query, which simplifies data fetching and state management for client-side applications.
 
 React Query is used to fetch, cache, and sync data from APIs, providing automatic re-fetching and caching mechanisms, improving performance and user experience on the client side.
 
-Overview of Client-Side Rendering (CSR):
+### Overview of Client-Side Rendering (CSR):
 
 Client-Side Rendering is an approach where the browser downloads a basic HTML skeleton, then uses JavaScript to dynamically render content on the page. It loads the necessary JavaScript bundles and renders content in the browser after the page has been loaded.
 
-Advantages of CSR:
+###Advantages of CSR:
 
 Fast navigation: Once the app is loaded, navigating between pages is much faster because the page doesn't need to be re-rendered from the server every time.
 
@@ -269,23 +234,23 @@ Reduced server load: Since rendering happens on the client, the server only need
 
 Improved user experience: CSR allows for a highly interactive and dynamic user interface.
 
-Disadvantages of CSR:
+### Disadvantages of CSR:
 
 SEO challenges: Since the page is rendered client-side, search engines may have difficulty indexing dynamic content that is generated through JavaScript.
 
 Initial load time: The initial load can be slower compared to SSR since the browser must load all JavaScript before displaying the content.
 
-Summary of CSR Approach in the Project:
+### Summary of CSR Approach in the Project:
 
 In the CSR-RealWorld branch, the project utilizes a client-side authentication method by storing tokens in either localStorage or sessionStorage. Authentication checks are done on each route individually to ensure that users can only access protected routes if they have a valid token. All API requests are made from the client-side using React Query, which makes it easier to manage data fetching and caching, creating a smooth and responsive experience for the user.
 
-Custom API Implementation in the Project (Backend)
+## Custom API Implementation in the Project (Backend)
 
 In this project, the custom APIs are implemented using Next.js API routes. These API routes allow for seamless server-side logic and backend operations to be integrated directly into the Next.js framework. The MongoDB database is utilized for storing and managing data related to user authentication and article management. The implementation of these APIs is found in the api-backend branch.
 
 Here’s a breakdown of the key custom APIs for handling user authentication, articles, and database interactions:
 
-1\. User Authentication APIs
+### 1. User Authentication APIs
 
 /api/auth/register:
 
@@ -329,7 +294,7 @@ It compares the provided password with the hashed password stored in the databas
 
 If the password is correct, it generates JWT tokens (access token and refresh token). The access token is used for authenticating protected routes, while the refresh token can be used to obtain a new access token after it expires.
 
-2\. Article Management APIs
+### 2. Article Management APIs
 
 The project includes separate routes for handling article operations such as creating, updating, deleting, and retrieving articles.
 
@@ -421,11 +386,11 @@ Integration in the Project (api-backend Branch)
 
 All the custom APIs described above are implemented in the api-backend branch of the project. This branch contains all the logic related to authentication and data management through Next.js API routes and MongoDB. These APIs handle user authentication, including JWT token generation and validation, as well as operations related to managing articles. By using these APIs, the application can efficiently manage user access and content creation.
 
-SSR and CSR Branches Overview
+## SSR and CSR Branches Overview
 
 The project is implemented using two different approaches: SSR (Server-Side Rendering) and CSR (Client-Side Rendering). The implementation relies on APIs, which act as the backend, providing functionality for authentication, article management, and more.
 
-SSR Implementation
+### SSR Implementation
 
 In the SSR branch (specifically ssr-realworld), the project is built using server-side rendering with Next.js. Authentication (login and registration) is handled through tokens. The authentication flow works as follows:
 
@@ -451,7 +416,7 @@ The middleware checks if a refresh token is present. If a valid refresh token is
 
 This ensures that the user remains logged in without needing to re-enter their credentials as long as the refresh token is valid.
 
-Middleware:
+### Middleware:
 
 Middleware in Next.js handles the validation and management of the tokens, ensuring that users can only access protected routes if they have a valid access token.
 
@@ -461,7 +426,7 @@ Certain routes like register and login are accessible without authentication, wh
 
 Note: Currently, the system only supports login, registration, and token refresh. Other parts of the authentication system (like logout or role-based access control) are still being implemented.
 
-CSR Implementation
+### CSR Implementation
 
 The CSR branch (csr-realworld) implements the client-side rendering approach. Here, authentication works differently:
 
@@ -471,7 +436,7 @@ In this version, the JWT tokens are stored in either localStorage or sessionStor
 
 The token is stored on the client-side and is sent along with each request to the backend to authenticate the user.
 
-Protected Routes:
+### Protected Routes:
 
 Protected routes must be manually checked in the frontend for authentication by verifying the presence and validity of the token.
 
