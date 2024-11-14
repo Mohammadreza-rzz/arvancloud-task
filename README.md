@@ -103,8 +103,8 @@ This will install both dependencies and devDependencies. Here's a quick breakdow
 
 If you encounter any issues during installation, try running:
 
-```bash
-npm install --force
+   ```bash
+   npm install --force
 
 This will bypass potential dependency conflicts and force the installation.
 
