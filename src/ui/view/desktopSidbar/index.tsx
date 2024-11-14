@@ -6,24 +6,27 @@ import React, { useEffect, useState } from "react"
 
 interface IProps {}
 
+const activeTabHandler = (pathname: string) => {
+  let initialActiveTabValue
+  if (pathname.includes("/articles/edit")) {
+    initialActiveTabValue = " "
+  } else if (pathname.includes("/articles/create")) {
+    initialActiveTabValue = "New Article"
+  } else if (pathname.includes("/articles")) {
+    initialActiveTabValue = "All Articles"
+  } else {
+    initialActiveTabValue = " "
+  }
+  return initialActiveTabValue
+}
+
 const DeskTopSideBar: React.FC<IProps> = () => {
   const pathname = usePathname()
-  const [activeTab, setActiveTab] = useState(
-    pathname.includes("/articles/edit")
-      ? null
-      : pathname.includes("/articles/create")
-        ? "New Article"
-        : "All Articles",
-  )
+
+  const [activeTab, setActiveTab] = useState(activeTabHandler(pathname))
 
   useEffect(() => {
-    setActiveTab(
-      pathname.includes("/articles/edit")
-        ? null
-        : pathname.includes("/articles/create")
-          ? "New Article"
-          : "All Articles",
-    )
+    setActiveTab(activeTabHandler(pathname))
   }, [pathname])
 
   return (

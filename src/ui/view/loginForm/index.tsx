@@ -11,8 +11,8 @@ import type { loginSchemaType } from "@/types"
 import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import { loginAction } from "@/utils/actions"
-import { loginSchema } from "@/utils/validations/FormSchema"
 import { toastHandler } from "@/utils/helper"
+import { loginSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
 
@@ -37,11 +37,13 @@ const LoginForm: React.FC<IProps> = () => {
     const { email, password } = values
     startTransition(async () => {
       const res = await loginAction(password, email)
-      if (res?.status! >= 200 && res?.status! < 400) {
-        toastHandler(200, "Well done", res?.message!, "Login - success")
-        router.push("/articles")
-      } else {
-        toastHandler(400, "Login Failed!", res?.message!, "Login Failed!")
+      if (res?.status) {
+        if (res?.status >= 200 && res?.status < 400) {
+          toastHandler(200, "Well done", res?.message, "Login - success")
+          router.push("/articles")
+        } else {
+          toastHandler(400, "Login Failed!", res?.message, "Login Failed!")
+        }
       }
     })
   }
@@ -63,7 +65,7 @@ const LoginForm: React.FC<IProps> = () => {
           }}
         />
         <TextInput
-          PasswordInput={true}
+          PasswordInput
           hasErrorMessage
           containerStyle='w-full'
           label='Password'

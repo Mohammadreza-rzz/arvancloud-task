@@ -9,8 +9,7 @@ import { ModalsLayout, TableActions } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
 import { deleteArticles } from "@/utils/api/ClinetSideRequest"
-import { truncateText } from "@/utils/helper"
-import { toastHandler } from "@/utils/helper"
+import { toastHandler, truncateText } from "@/utils/helper"
 
 interface IProps {
   initialArticles: Article[]
@@ -24,24 +23,22 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
   const [ispending, startTransition] = useTransition()
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
   const [activeArticle, setActiveArticle] = useState<Article>()
-  const { control, register, setValue } = useForm<ArticleFormValue>({
+  const { control } = useForm<ArticleFormValue>({
     defaultValues: {
       articles: initialArticles,
     },
   })
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control,
-      name: "articles",
-    },
-  )
+  const { fields } = useFieldArray({
+    control,
+    name: "articles",
+  })
 
   const [dropdownsIsActive, setDropdownsIsActive] = useState<
     dropDownActivator[]
   >(
     fields.map(item => {
       return { id: item.id, isActive: false }
-    }),
+    })
   )
 
   // console.log(fields, "fieslsllss")
@@ -56,8 +53,8 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
           ? !item.isActive
             ? { ...item, isActive: true }
             : { ...item, isActive: false }
-          : { ...item, isActive: false },
-      ),
+          : { ...item, isActive: false }
+      )
     )
     setActiveArticle(fields.filter(el => el.id === id)[0])
   }
@@ -70,32 +67,34 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
     // console.log(slug, "slugg")
     startTransition(async () => {
       const res = await deleteArticles(
-        activeArticle?.slug ? activeArticle?.slug : " ",
+        activeArticle?.slug ? activeArticle?.slug : " "
       )
-      if (res?.status! >= 200 && res?.status! < 400) {
-        toastHandler(
-          200,
-          "Well done",
-          res?.message ? res?.message : " ",
-          "delete-success",
-        )
-        router.push("/articles")
-      } else {
-        toastHandler(
-          400,
-          "Delete Article Failed!",
-          res?.message ? res?.message : " ",
-          "deleteArticle-faild",
-        )
-      }
-      closeDeleteModal()
-      if (res?.status === 200) {
-        if (page) {
-          router.push(
-            `/articles/page/${page}?refreshId=${new Date().getTime()}`,
+      if (res.status) {
+        if (res?.status >= 200 && res?.status < 400) {
+          toastHandler(
+            200,
+            "Well done",
+            res?.message ? res?.message : " ",
+            "delete-success"
           )
+          router.push("/articles")
         } else {
-          router.push(`/articles/page/1?refreshId=${new Date().getTime()}`)
+          toastHandler(
+            400,
+            "Delete Article Failed!",
+            res?.message ? res?.message : " ",
+            "deleteArticle-faild"
+          )
+        }
+        closeDeleteModal()
+        if (res?.status === 200) {
+          if (page) {
+            router.push(
+              `/articles/page/${page}?refreshId=${new Date().getTime()}`
+            )
+          } else {
+            router.push(`/articles/page/1?refreshId=${new Date().getTime()}`)
+          }
         }
       }
     })
@@ -163,7 +162,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
                       clickhandler={() => ActionButtonHandler(item?.id)}
                       isActive={
                         dropdownsIsActive?.filter(
-                          activeListItem => activeListItem.id === item.id,
+                          activeListItem => activeListItem.id === item.id
                         )[0].isActive
                       }
                       actionList={[

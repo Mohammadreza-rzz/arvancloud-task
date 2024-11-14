@@ -19,10 +19,17 @@ const DeleteArticleModal: React.FC<IProps> = ({
   return (
     <div className=' flex min-w-[80%] flex-col rounded-[4px] bg-white sm:min-w-[500px]'>
       <div className='flex items-center justify-between border-b border-light-100 px-4 py-5'>
+        {/* eslint-disable-next-line tailwindcss/no-contradicting-classname */}
         <h2 className='text-[20px] text-paragraph_xl font-semibold text-light-500'>
           Delete Article
         </h2>
-        <span onClick={closeButtonHandler} className='inline-block size-fit'>
+        <span
+          role='button'
+          tabIndex={0}
+          onKeyDown={closeButtonHandler}
+          onClick={closeButtonHandler}
+          className='inline-block size-fit'
+        >
           <XIcon classnamse='size-5 cursor-pointer click_Effect' />
         </span>
       </div>

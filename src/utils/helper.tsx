@@ -3,6 +3,7 @@ import { clsx } from "clsx"
 import { toast } from "react-toastify"
 import { twMerge } from "tailwind-merge"
 
+// eslint-disable-next-line import/no-cycle
 import { CustomToast } from "@/ui/components"
 
 export const cn = (...inputs: ClassValue[]) => {

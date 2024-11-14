@@ -7,10 +7,10 @@ import { Button } from "@/ui/components"
 
 interface ErrorProps {
   error: Error
-  reset: () => void
+  // reset: () => void
 }
 
-export default function Error({ error, reset }: ErrorProps) {
+export default function Error({ error }: ErrorProps) {
   useEffect(() => {
     console.error("Logging error:", error)
   }, [error])

@@ -1,11 +1,13 @@
 "use client"
 
 import type { InputHTMLAttributes } from "react"
-import { CloseEyeIcon, OpenEyeIcon } from "@/ui/components/icons"
 import React, { useState } from "react"
 import type { FieldError, UseControllerProps } from "react-hook-form"
 import { useController } from "react-hook-form"
+
 import type { textInputProps } from "@/types"
+import { CloseEyeIcon, OpenEyeIcon } from "@/ui/components/icons"
+// eslint-disable-next-line import/no-cycle
 import { cn } from "@/utils/helper"
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -15,6 +17,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   labelStyle?: string
   InputStyle?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   inputProps: UseControllerProps<textInputProps | any>
   hasErrorMessage?: boolean
 }
@@ -55,18 +58,24 @@ const CustomInput: React.FC<IProps> = ({
       </label>
       <div className={`relative flex w-full flex-col ${InputContainerStyle}'`}>
         {!!PasswordInput && (
-          <div className='absolute right-2 top-2/4 -translate-y-2/4  z-10'>
-            {!!isHidden ? (
+          <div className='absolute right-2 top-2/4 z-10  -translate-y-2/4'>
+            {isHidden ? (
               <span
+                tabIndex={0}
+                role='button'
+                onKeyDown={() => setIsHidden(preData => !preData)}
                 onClick={() => setIsHidden(preData => !preData)}
-                className='w-fit h-fit'
+                className='size-fit'
               >
                 <CloseEyeIcon classnames='w-7 h-7' />
               </span>
             ) : (
               <span
+                tabIndex={0}
+                role='button'
+                onKeyDown={() => setIsHidden(preData => !preData)}
                 onClick={() => setIsHidden(preData => !preData)}
-                className='w-fit h-fit'
+                className='size-fit'
               >
                 <OpenEyeIcon classnames='w-7 h-7' />
               </span>
@@ -79,6 +88,7 @@ const CustomInput: React.FC<IProps> = ({
           onFocus={touchHandler}
           onBlur={BlurHandler}
           onChange={onChange}
+          // eslint-disable-next-line no-nested-ternary
           type={!PasswordInput ? type : isHidden ? "password" : "text"}
           id={id || name}
           placeholder={placeholder}

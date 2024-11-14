@@ -4,6 +4,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import React from "react"
 
+// eslint-disable-next-line import/no-cycle
 import { toastHandler } from "@/utils/helper"
 
 interface IProps {

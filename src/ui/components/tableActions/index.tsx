@@ -16,6 +16,9 @@ const TableActions: React.FC<IProps> = ({
   return (
     <div
       onClick={clickhandler}
+      onKeyDown={clickhandler}
+      tabIndex={0}
+      role='button'
       className='relative flex h-10 w-[65px] cursor-pointer items-center rounded-[4px] bg-info px-2'
     >
       <span className='justify-cente inline-flex flex-1 items-center text-paragraph_lg text-white'>
@@ -30,6 +33,9 @@ const TableActions: React.FC<IProps> = ({
                 <li
                   key={Math.random()}
                   onClick={item.clickHandler}
+                  tabIndex={0}
+                  onKeyDown={item.clickHandler}
+                  role='tab'
                   className='cursor-pointer border-b border-light-100 bg-white py-3 pl-4 text-paragraph_md text-light-400 hover:bg-gray-200'
                 >
                   {item?.title}
@@ -37,6 +43,9 @@ const TableActions: React.FC<IProps> = ({
               ) : (
                 <li
                   key={Math.random()}
+                  tabIndex={0}
+                  role='tab'
+                  onKeyDown={item.clickHandler}
                   onClick={item.clickHandler}
                   className='cursor-pointer bg-white py-3 pl-4 text-paragraph_md text-light-400 hover:bg-gray-200'
                 >

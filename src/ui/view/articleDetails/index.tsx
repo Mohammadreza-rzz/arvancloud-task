@@ -35,6 +35,7 @@ const Articledetails: React.FC<IProps> = ({
   const [isClient, setIsClient] = useState<boolean>(false)
   const { control, handleSubmit, getValues, setValue } =
     useForm<addArticleFormValues>({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       resolver: yupResolver<any>(articleDetailsFormSchema),
       defaultValues: {
         selectedOptions: [],
@@ -68,39 +69,43 @@ const Articledetails: React.FC<IProps> = ({
     startTransition(async () => {
       if (!isEdit) {
         const res = await addNewArticleAction(data)
-        if (res?.status! >= 200 && res?.status! < 400) {
-          toastHandler(
-            200,
-            "Well done",
-            res?.message ? res?.message : " ",
-            "addArticle-success"
-          )
-          router.push("/articles")
-        } else {
-          toastHandler(
-            400,
-            "Add Article Failed!",
-            res?.message ? res?.message : " ",
-            "addArticle-faild"
-          )
+        if (res?.status) {
+          if (res?.status >= 200 && res?.status < 400) {
+            toastHandler(
+              200,
+              "Well done",
+              res?.message ? res?.message : " ",
+              "addArticle-success"
+            )
+            router.push("/articles")
+          } else {
+            toastHandler(
+              400,
+              "Add Article Failed!",
+              res?.message ? res?.message : " ",
+              "addArticle-faild"
+            )
+          }
         }
       } else {
         const res = await editArticleAction(data, initailData?.slug ?? " ")
-        if (res?.status! >= 200 && res?.status! < 400) {
-          toastHandler(
-            200,
-            "Well done",
-            res?.message ? res?.message : " ",
-            "editArticle-success"
-          )
-          router.push("/articles")
-        } else {
-          toastHandler(
-            400,
-            "edit Article Failed!",
-            res?.message ? res?.message : " ",
-            "editArticle-faild"
-          )
+        if (res?.status) {
+          if (res?.status >= 200 && res?.status < 400) {
+            toastHandler(
+              200,
+              "Well done",
+              res?.message ? res?.message : " ",
+              "editArticle-success"
+            )
+            router.push("/articles")
+          } else {
+            toastHandler(
+              400,
+              "edit Article Failed!",
+              res?.message ? res?.message : " ",
+              "editArticle-faild"
+            )
+          }
         }
       }
     })
@@ -173,6 +178,7 @@ const Articledetails: React.FC<IProps> = ({
             {/* fix hydration error , conflict with react select package   */}
             {isClient && (
               <div className='flex flex-col space-y-2.5 lg:hidden'>
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label
                   htmlFor='selectedOptions'
                   className='text-paragraph_sm text-light-500'
@@ -208,6 +214,7 @@ const Articledetails: React.FC<IProps> = ({
             )}
 
             <div className='flex flex-col space-y-2.5'>
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label
                 htmlFor='body'
                 className='text-paragraph_sm text-light-500'

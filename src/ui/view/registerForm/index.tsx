@@ -11,8 +11,8 @@ import type { registerSchemaType } from "@/types"
 import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import { registerAction } from "@/utils/actions"
-import { registerSchema } from "@/utils/validations/FormSchema"
 import { toastHandler } from "@/utils/helper"
+import { registerSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
 
@@ -39,11 +39,13 @@ const RegisterForm: React.FC<IProps> = () => {
     const { email, password, username } = values
     startTransition(async () => {
       const res = await registerAction(username, password, email)
-      if (res?.status! >= 200 && res?.status! < 400) {
-        toastHandler(200, "Well done", res?.message!, "register-success")
-        router.push("/login")
-      } else {
-        toastHandler(400, "Register Failed!", res?.message!, "user-exist")
+      if (res?.status) {
+        if (res?.status >= 200 && res?.status < 400) {
+          toastHandler(200, "Well done", res?.message, "register-success")
+          router.push("/login")
+        } else {
+          toastHandler(400, "Register Failed!", res?.message, "user-exist")
+        }
       }
     })
   }
@@ -77,7 +79,6 @@ const RegisterForm: React.FC<IProps> = () => {
           }}
         />
         <TextInput
-        
           hasErrorMessage
           containerStyle='w-full'
           label='Password'

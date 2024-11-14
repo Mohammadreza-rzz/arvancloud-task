@@ -16,7 +16,13 @@ export default async function Articles({ params }: ArticlePageProps) {
   }
   const offest = (+page - 1) * 10
   const articlesData = await getAllArticles(String(offest), "10")
-  const { articlesCount, articles } = articlesData?.data
+  const articlesCount = articlesData?.data?.articlesCount
+    ? articlesData?.data?.articlesCount
+    : 0
+  const articles = articlesData?.data?.articles
+    ? articlesData?.data?.articles
+    : []
+  // const { articlesCount, articles } = articlesData?.data
 
   return (
     <main className='space-y-7'>

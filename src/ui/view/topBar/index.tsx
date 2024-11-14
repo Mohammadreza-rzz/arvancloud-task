@@ -10,7 +10,8 @@ const TopBar: React.FC<IProps> = async () => {
   const cookieStore = await cookies()
   const token = cookieStore.get("access_token")
   const userData = await getUserData(token?.value ? token?.value : " ")
-  const { email, username } = userData.data
+  const email = userData?.data ? userData?.data?.email : " "
+  const username = userData?.data ? userData?.data?.username : " "
 
   return (
     <div className='hidden w-full items-center justify-between bg-light-500 py-3 pl-[18px] pr-8 md:flex'>

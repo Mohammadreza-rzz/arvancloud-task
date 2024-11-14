@@ -1,5 +1,4 @@
-import axios from "axios"
-import AxiosError from "axios"
+import axios, { AxiosError } from "axios"
 
 const getUserData = async (access_token: string) => {
   try {
@@ -9,7 +8,7 @@ const getUserData = async (access_token: string) => {
         params: {
           access_token,
         },
-      },
+      }
     )
     return res.data
   } catch (error) {

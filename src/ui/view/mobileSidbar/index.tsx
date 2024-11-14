@@ -17,19 +17,27 @@ import { getUserData } from "@/utils/api/ClinetSideRequest"
 
 interface IProps {}
 
+const activeTabHandler = (pathname: string) => {
+  let initialActiveTabValue
+  if (pathname.includes("/articles/edit")) {
+    initialActiveTabValue = " "
+  } else if (pathname.includes("/articles/create")) {
+    initialActiveTabValue = "New Article"
+  } else if (pathname.includes("/articles")) {
+    initialActiveTabValue = "All Articles"
+  } else {
+    initialActiveTabValue = " "
+  }
+  return initialActiveTabValue
+}
+
 const MobileSidbar: React.FC<IProps> = () => {
   // states & Logic
   const [sidebarActive, setSidebarActive] = useState<boolean>(false)
   const [userdata, setUserData] = useState<UserData | null>(null)
   const pathname = usePathname()
 
-  const [activeTab, setActiveTab] = useState(
-    pathname.includes("/articles/edit")
-      ? null
-      : pathname.includes("/articles/create")
-        ? "New Article"
-        : "All Articles"
-  )
+  const [activeTab, setActiveTab] = useState(activeTabHandler(pathname))
 
   // handlers
   const closeModalHandler = () => {
@@ -41,13 +49,7 @@ const MobileSidbar: React.FC<IProps> = () => {
   //   useEffects
 
   useLayoutEffect(() => {
-    setActiveTab(
-      pathname.includes("/articles/edit")
-        ? null
-        : pathname.includes("/articles/create")
-          ? "New Article"
-          : "All Articles"
-    )
+    setActiveTab(activeTabHandler(pathname))
   }, [pathname])
 
   useLayoutEffect(() => {
@@ -77,6 +79,9 @@ const MobileSidbar: React.FC<IProps> = () => {
       </div>
       <div className='mb-6 mt-auto flex flex-col space-y-2'>
         <span
+          role='button'
+          tabIndex={0}
+          onKeyDown={openModalHandler}
           onClick={openModalHandler}
           className='click_Effect inline-block rounded-sm p-3 hover:bg-black/40'
         >
@@ -98,6 +103,9 @@ const MobileSidbar: React.FC<IProps> = () => {
           <div className='w-full bg-light-500 py-6 pl-[18px] pr-8 '>
             <span className='inline-flex flex-col space-y-2'>
               <span
+                role='button'
+                tabIndex={0}
+                onKeyDown={openModalHandler}
                 className='absolute right-5 top-5 inline-block size-fit cursor-pointer'
                 onClick={closeModalHandler}
               >
