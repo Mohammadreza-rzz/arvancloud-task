@@ -3,9 +3,11 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React, { useLayoutEffect, useState } from "react"
+import { useGetUser } from "@/utils/api/apiQuery"
 
 import type { UserData } from "@/types"
-import { Button, LogoutButtonContainer, UserInfoLabel } from "@/ui/components"
+import { Button, UserInfoLabel } from "@/ui/components"
+import { useLogout } from "@/hook"
 import {
   ArticleIcon,
   FolderPlusIcon,
@@ -13,7 +15,6 @@ import {
   MenuBarIcon,
   XIcon,
 } from "@/ui/components/icons"
-import { getUserData } from "@/utils/api/ClinetSideRequest"
 
 interface IProps {}
 
@@ -32,9 +33,14 @@ const activeTabHandler = (pathname: string) => {
 }
 
 const MobileSidbar: React.FC<IProps> = () => {
+  const logoutHandler = useLogout()
+  const { data } = useGetUser(["userInfo"])
+
+  const email = data ? data.email : " "
+  const username = data ? data.username : " "
   // states & Logic
   const [sidebarActive, setSidebarActive] = useState<boolean>(false)
-  const [userdata, setUserData] = useState<UserData | null>(null)
+
   const pathname = usePathname()
 
   const [activeTab, setActiveTab] = useState(activeTabHandler(pathname))
@@ -52,17 +58,9 @@ const MobileSidbar: React.FC<IProps> = () => {
     setActiveTab(activeTabHandler(pathname))
   }, [pathname])
 
-  useLayoutEffect(() => {
-    const getData = async () => {
-      const res = await getUserData()
-      setUserData(res.data)
-    }
-    getData()
-  }, [])
-
   return (
     <aside className='relative z-30 flex w-[70px] flex-col items-center bg-primary-100 px-1 md:hidden'>
-      <UserInfoLabel classnames='mt-4' username={userdata?.username ?? ""} />
+      <UserInfoLabel classnames='mt-4' username={username ?? ""} />
       <div className='mt-10 flex w-full flex-col items-center justify-center space-y-5 '>
         <Link
           className={`click_Effect rounded-sm p-3 hover:bg-black/40 ${activeTab === "All Articles" && "bg-black/40"}`}
@@ -88,9 +86,15 @@ const MobileSidbar: React.FC<IProps> = () => {
           <MenuBarIcon classnames='fill-white size-6' />
         </span>
         <span className='click_Effect inline-block rounded-sm p-3 hover:bg-black/40'>
-          <LogoutButtonContainer>
+          <span
+            className='w-fit h-fit'
+            onKeyDown={logoutHandler}
+            onClick={logoutHandler}
+            tabIndex={0}
+            role='button'
+          >
             <LogOutIcon classnames='fill-white size-6 translate-x-1' />
-          </LogoutButtonContainer>
+          </span>
         </span>
       </div>
       {/* sidebar menu modal in mobile  */}
@@ -116,12 +120,9 @@ const MobileSidbar: React.FC<IProps> = () => {
                 Arvan Challenge
               </h2>
               <span className='inline-flex items-center justify-center space-x-2 '>
-                <UserInfoLabel
-                  classnames='mt-4'
-                  username={userdata?.username ?? ""}
-                />
-                <p className='text-paragraph_sm text-white'>
-                  mohammadreza razza
+                <UserInfoLabel classnames='mt-4' username={username ?? ""} />
+                <p className='text-paragraph_sm text-white translate-y-1.5'>
+                  {username ?? ""}
                 </p>
               </span>
             </span>
@@ -146,12 +147,11 @@ const MobileSidbar: React.FC<IProps> = () => {
             </li>
           </ul>
           <div className='mx-auto mt-auto'>
-            <LogoutButtonContainer>
-              <Button
-                label='Logout'
-                classnames='border mt-auto mb-5 mx-auto w-[210px] border-info !py-2 w-full text-info hover:bg-info hover:text-white transition-colors duration-500'
-              />
-            </LogoutButtonContainer>
+            <Button
+              clickHandler={logoutHandler}
+              label='Logout'
+              classnames='border mt-auto mb-5 mx-auto w-[210px] border-info !py-2 w-full text-info hover:bg-info hover:text-white transition-colors duration-500'
+            />
           </div>
         </div>
       </div>

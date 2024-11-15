@@ -27,3 +27,12 @@ export const getArticles = (
     },
   })
 }
+
+export const getuserApi = () => {
+  const token = localStorage.getItem("access_token")
+  return baseRequest.get("/user", {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  })
+}
