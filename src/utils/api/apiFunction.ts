@@ -1,4 +1,4 @@
-import { baseRequest } from "./interceptors"
+import { baseRequest, baseRequestWithToken } from "./interceptors"
 
 type userRegisterReqBody = {
   user: { email: string; password: string; username: string }
@@ -14,4 +14,16 @@ export const userRegisterApi = (reqBody: userRegisterReqBody) => {
 
 export const userLogin = (reqBody: userLoginReqBody) => {
   return baseRequest.post("/users/login", reqBody)
+}
+
+export const getArticles = (
+  offset: string | undefined = "0",
+  limit: string | undefined = "10",
+) => {
+  return baseRequestWithToken.get(`/articles`, {
+    params: {
+      limit,
+      offset,
+    },
+  })
 }

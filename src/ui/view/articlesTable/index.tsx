@@ -38,7 +38,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
   >(
     fields.map(item => {
       return { id: item.id, isActive: false }
-    })
+    }),
   )
 
   // console.log(fields, "fieslsllss")
@@ -53,8 +53,8 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
           ? !item.isActive
             ? { ...item, isActive: true }
             : { ...item, isActive: false }
-          : { ...item, isActive: false }
-      )
+          : { ...item, isActive: false },
+      ),
     )
     setActiveArticle(fields.filter(el => el.id === id)[0])
   }
@@ -67,7 +67,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
     // console.log(slug, "slugg")
     startTransition(async () => {
       const res = await deleteArticles(
-        activeArticle?.slug ? activeArticle?.slug : " "
+        activeArticle?.slug ? activeArticle?.slug : " ",
       )
       if (res.status) {
         if (res?.status >= 200 && res?.status < 400) {
@@ -75,7 +75,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
             200,
             "Well done",
             res?.message ? res?.message : " ",
-            "delete-success"
+            "delete-success",
           )
           router.push("/articles")
         } else {
@@ -83,14 +83,14 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
             400,
             "Delete Article Failed!",
             res?.message ? res?.message : " ",
-            "deleteArticle-faild"
+            "deleteArticle-faild",
           )
         }
         closeDeleteModal()
         if (res?.status === 200) {
           if (page) {
             router.push(
-              `/articles/page/${page}?refreshId=${new Date().getTime()}`
+              `/articles/page/${page}?refreshId=${new Date().getTime()}`,
             )
           } else {
             router.push(`/articles/page/1?refreshId=${new Date().getTime()}`)
@@ -162,7 +162,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
                       clickhandler={() => ActionButtonHandler(item?.id)}
                       isActive={
                         dropdownsIsActive?.filter(
-                          activeListItem => activeListItem.id === item.id
+                          activeListItem => activeListItem.id === item.id,
                         )[0].isActive
                       }
                       actionList={[

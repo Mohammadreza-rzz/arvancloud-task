@@ -1,34 +1,41 @@
-import { redirect } from "next/navigation"
-
+"use client"
+import { useParams, useRouter } from "next/navigation"
+import { useGetArticles } from "@/utils/api/apiQuery"
+import LoadingUi from "@/ui/components/loadingUi"
 import { ArticleTable, PaginateLayout } from "@/ui/view"
-import { getAllArticles } from "@/utils/api"
 
-type ArticlePageProps = {
-  params: Promise<{
-    page: string
-  }>
-}
+export default function Articles() {
+  const router = useRouter()
+  const { page } = useParams()
 
-export default async function Articles({ params }: ArticlePageProps) {
-  const { page } = await params
-  if (page === "1" || +page < 0) {
-    redirect("/articles")
+  if (!!page && (page === "1" || +page < 0)) {
+    router.push("/articles")
   }
-  const offest = (+page - 1) * 10
-  const articlesData = await getAllArticles(String(offest), "10")
-  const articlesCount = articlesData?.data?.articlesCount
-    ? articlesData?.data?.articlesCount
-    : 0
-  const articles = articlesData?.data?.articles
-    ? articlesData?.data?.articles
-    : []
-  // const { articlesCount, articles } = articlesData?.data
+  const offest = !!page ? (+page - 1) * 10 : 0
+
+  const { data, isLoading }: any = useGetArticles(
+    ["articles", String(page)],
+    String(offest),
+    "10",
+  )
+
+  const articlesCount = !!data ? data?.articlesCount : 0
+  const articles = !!data ? data?.articles : []
 
   return (
     <main className='space-y-7'>
-      <h1 className='text-heading_md text-black'>All Posts</h1>
-      <ArticleTable initialArticles={articles} />
-      <PaginateLayout articlesCount={articlesCount} initialPage={+page - 1} />
+      {isLoading ? (
+        <LoadingUi />
+      ) : (
+        <>
+          <h1 className='text-heading_md text-black'>All Posts</h1>
+          <ArticleTable initialArticles={articles} />
+          <PaginateLayout
+            articlesCount={articlesCount}
+            initialPage={!!page ? +page - 1 : 0}
+          />
+        </>
+      )}
     </main>
   )
 }

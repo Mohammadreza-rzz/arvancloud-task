@@ -2,17 +2,13 @@
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import type React from "react"
-import { useTransition } from "react"
 import { useForm } from "react-hook-form"
-
 import type { loginSchemaType } from "@/types"
 import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
-import { loginAction } from "@/utils/actions"
-import { toastHandler } from "@/utils/helper"
 import { loginSchema } from "@/utils/validations/FormSchema"
+import useLogin from "@/utils/api/apiQuery/useLogin"
 
 interface IProps {}
 
@@ -22,8 +18,7 @@ type FormValues = {
 }
 
 const LoginForm: React.FC<IProps> = () => {
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
+  const { mutateAsync, isPending } = useLogin()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { handleSubmit, control } = useForm<FormValues | any>({
     resolver: yupResolver(loginSchema),
@@ -35,17 +30,8 @@ const LoginForm: React.FC<IProps> = () => {
 
   const submitHandler = async (values: loginSchemaType) => {
     const { email, password } = values
-    // startTransition(async () => {
-    //   const res = await loginAction(password, email)
-    //   if (res?.status) {
-    //     if (res?.status >= 200 && res?.status < 400) {
-    //       toastHandler(200, "Well done", res?.message, "Login - success")
-    //       router.push("/articles")
-    //     } else {
-    //       toastHandler(400, "Login Failed!", res?.message, "Login Failed!")
-    //     }
-    //   }
-    // })
+    const reqBody = { user: { email, password } }
+    await mutateAsync(reqBody)
   }
   return (
     <form
