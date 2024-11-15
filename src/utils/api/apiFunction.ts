@@ -78,6 +78,15 @@ export const getArticleBySlug = (slug: string) => {
   })
 }
 
+export const deleteArticleApi = (slug: string) => {
+  const token = localStorage.getItem("access_token")
+  return baseRequest.delete(`/articles/${slug}`, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  })
+}
+
 export const getuserApi = () => {
   const token = localStorage.getItem("access_token")
   return baseRequest.get("/user", {

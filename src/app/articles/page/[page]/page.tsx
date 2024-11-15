@@ -13,7 +13,7 @@ export default function Articles() {
   }
   const offest = !!page ? (+page - 1) * 10 : 0
 
-  const { data, isLoading }: any = useGetArticles(
+  const { data, isFetching, refetch }: any = useGetArticles(
     ["articles", String(page)],
     String(offest),
     "10",
@@ -24,12 +24,12 @@ export default function Articles() {
 
   return (
     <main className='space-y-7'>
-      {isLoading ? (
+      {isFetching ? (
         <LoadingUi />
       ) : (
         <>
           <h1 className='text-heading_md text-black'>All Posts</h1>
-          <ArticleTable initialArticles={articles} />
+          <ArticleTable refetch={refetch} initialArticles={articles} />
           <PaginateLayout
             articlesCount={articlesCount}
             initialPage={!!page ? +page - 1 : 0}

@@ -1,26 +1,27 @@
 "use client"
 
 import { useParams, useRouter } from "next/navigation"
-import React, { useState, useTransition } from "react"
+import React, { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 
 import type { Article, ArticleFormValue, dropDownActivator } from "@/types"
 import { ModalsLayout, TableActions } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
 import DeleteArticlesModal from "@/ui/view/deleteArticlesModal"
-import { deleteArticles } from "@/utils/api/ClinetSideRequest"
-import { toastHandler, truncateText } from "@/utils/helper"
+import { truncateText } from "@/utils/helper"
+import useDeleteArticle from "@/utils/api/apiQuery/useDeleteArticle"
 
 interface IProps {
   initialArticles: Article[]
+  refetch?: () => void
 }
 
-const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
+const Articlestable: React.FC<IProps> = ({ initialArticles, refetch }) => {
   // states & Logic
   const params = useParams()
   const router = useRouter()
   const { page } = params
-  const [ispending, startTransition] = useTransition()
+  const { mutateAsync, isPending, data } = useDeleteArticle()
   const [deleteModalIsActive, setDeleteModalIsActive] = useState<boolean>(false)
   const [activeArticle, setActiveArticle] = useState<Article>()
   const { control } = useForm<ArticleFormValue>({
@@ -41,7 +42,6 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
     }),
   )
 
-  // console.log(fields, "fieslsllss")
 
   // handlers
 
@@ -64,40 +64,11 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
   }
 
   const deleteAction = async () => {
-    // console.log(slug, "slugg")
-    startTransition(async () => {
-      const res = await deleteArticles(
-        activeArticle?.slug ? activeArticle?.slug : " ",
-      )
-      if (res.status) {
-        if (res?.status >= 200 && res?.status < 400) {
-          toastHandler(
-            200,
-            "Well done",
-            res?.message ? res?.message : " ",
-            "delete-success",
-          )
-          router.push("/articles")
-        } else {
-          toastHandler(
-            400,
-            "Delete Article Failed!",
-            res?.message ? res?.message : " ",
-            "deleteArticle-faild",
-          )
-        }
-        closeDeleteModal()
-        if (res?.status === 200) {
-          if (page) {
-            router.push(
-              `/articles/page/${page}?refreshId=${new Date().getTime()}`,
-            )
-          } else {
-            router.push(`/articles/page/1?refreshId=${new Date().getTime()}`)
-          }
-        }
-      }
-    })
+    await mutateAsync(activeArticle?.slug ? activeArticle?.slug : " ")
+    closeDeleteModal()
+    if (!!refetch) {
+      refetch()
+    }
   }
 
   //   useEffects
@@ -198,7 +169,7 @@ const Articlestable: React.FC<IProps> = ({ initialArticles }) => {
           </ModalsLayout>
         )}
       </div>
-      {ispending && <LoadingUi />}
+      {isPending && <LoadingUi />}
     </>
   )
 }
