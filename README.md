@@ -26,7 +26,7 @@ You can also explore the custom APIs defined within this project. Instructions f
 
 [Live Demo (SSR)](https://arvancloud-task-ssr-realworldapi.vercel.app/login)
 
-[Live Demo (CSR)]([https://arvancloud-task-ssr-realworldapi.vercel.app/login](https://csr-arvancloud-realworld-api.vercel.app/login))
+[Live Demo (CSR)](https://csr-arvancloud-realworld-api.vercel.app/login)
 
 
 
