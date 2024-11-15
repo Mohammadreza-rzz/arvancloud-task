@@ -1,13 +1,23 @@
+"use client"
 import { ArticleDetailes } from "@/ui/view"
-import getTag from "@/utils/api/getTag"
+import { usegetTags } from "@/utils/api/apiQuery"
+import LoadingUi from "@/ui/components/loadingUi"
 
-export default async function CreateArticles() {
-  const tags = await getTag()
+export default function CreateArticles() {
+  // const tags = await getTag()
+  const { data, isLoading } = usegetTags(["tags"])
+  console.log(data, "datta")
 
   return (
-    <div>
-      <h1 className='text-heading_md text-black'>New Article</h1>
-      <ArticleDetailes initialTag={tags?.data} />
-    </div>
+    <>
+      {isLoading ? (
+        <LoadingUi />
+      ) : (
+        <div>
+          <h1 className='text-heading_md text-black'>New Article</h1>
+          <ArticleDetailes initialTag={!!data ? data?.tags : []} />
+        </div>
+      )}
+    </>
   )
 }

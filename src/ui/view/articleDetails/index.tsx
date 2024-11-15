@@ -1,16 +1,13 @@
 "use client"
 
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useRouter } from "next/navigation"
-import React, { useEffect, useState, useTransition } from "react"
+import React, { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Select from "react-select"
-
+import { useAddArticle, useEdirArticle } from "@/utils/api/apiQuery"
 import type { addArticleFormValues, Article, Option } from "@/types"
 import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
-import { addNewArticleAction, editArticleAction } from "@/utils/actions"
-import { toastHandler } from "@/utils/helper"
 import { articleDetailsFormSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {
@@ -24,13 +21,17 @@ const Articledetails: React.FC<IProps> = ({
   initailData,
   isEdit = false,
 }) => {
+  console.log(initailData, initialTag, "initialTaggggggg")
+  const { mutateAsync: addArticle, isPending: addArticleIsPending } =
+    useAddArticle()
+  const { mutateAsync: editArticle, isPending: editArticleIsPending } =
+    useEdirArticle()
+
   // states & Logic
-  const router = useRouter()
-  const [ispending, startTransition] = useTransition()
   const [tags, setTags] = useState<Option[]>(
     initialTag?.map((el: string) => {
       return { value: el, label: el }
-    })
+    }),
   )
   const [isClient, setIsClient] = useState<boolean>(false)
   const { control, handleSubmit, getValues, setValue } =
@@ -65,50 +66,74 @@ const Articledetails: React.FC<IProps> = ({
     }
   }
 
-  const onSubmit = (data: addArticleFormValues) => {
-    startTransition(async () => {
-      if (!isEdit) {
-        const res = await addNewArticleAction(data)
-        if (res?.status) {
-          if (res?.status >= 200 && res?.status < 400) {
-            toastHandler(
-              200,
-              "Well done",
-              res?.message ? res?.message : " ",
-              "addArticle-success"
-            )
-            router.push("/articles")
-          } else {
-            toastHandler(
-              400,
-              "Add Article Failed!",
-              res?.message ? res?.message : " ",
-              "addArticle-faild"
-            )
-          }
-        }
-      } else {
-        const res = await editArticleAction(data, initailData?.slug ?? " ")
-        if (res?.status) {
-          if (res?.status >= 200 && res?.status < 400) {
-            toastHandler(
-              200,
-              "Well done",
-              res?.message ? res?.message : " ",
-              "editArticle-success"
-            )
-            router.push("/articles")
-          } else {
-            toastHandler(
-              400,
-              "edit Article Failed!",
-              res?.message ? res?.message : " ",
-              "editArticle-faild"
-            )
-          }
-        }
+  const onSubmit = async (data: addArticleFormValues) => {
+    const reqBody = {
+      article: {
+        title: data?.title,
+        description: data?.description,
+        body: data?.body,
+        tagList: data?.selectedOptions,
+      },
+    }
+    if (!isEdit) {
+      const reqBody = {
+        article: {
+          title: data?.title,
+          description: data?.description,
+          body: data?.body,
+          tagList: data?.selectedOptions,
+        },
       }
-    })
+      await addArticle(reqBody)
+    } else {
+      await editArticle({
+        ...reqBody,
+        slug: initailData?.slug ? initailData?.slug : "",
+      })
+    }
+    // startTransition(async () => {
+    //   if (!isEdit) {
+    //     const res = await addNewArticleAction(data)
+    //     if (res?.status) {
+    //       if (res?.status >= 200 && res?.status < 400) {
+    //         toastHandler(
+    //           200,
+    //           "Well done",
+    //           res?.message ? res?.message : " ",
+    //           "addArticle-success",
+    //         )
+    //         router.push("/articles")
+    //       } else {
+    //         toastHandler(
+    //           400,
+    //           "Add Article Failed!",
+    //           res?.message ? res?.message : " ",
+    //           "addArticle-faild",
+    //         )
+    //       }
+    //     }
+    //   } else {
+    //     const res = await editArticleAction(data, initailData?.slug ?? " ")
+    //     if (res?.status) {
+    //       if (res?.status >= 200 && res?.status < 400) {
+    //         toastHandler(
+    //           200,
+    //           "Well done",
+    //           res?.message ? res?.message : " ",
+    //           "editArticle-success",
+    //         )
+    //         router.push("/articles")
+    //       } else {
+    //         toastHandler(
+    //           400,
+    //           "edit Article Failed!",
+    //           res?.message ? res?.message : " ",
+    //           "editArticle-faild",
+    //         )
+    //       }
+    //     }
+    //   }
+    // })
   }
 
   //   useEffects
@@ -120,7 +145,7 @@ const Articledetails: React.FC<IProps> = ({
       setValue("description", initailData?.description ?? "")
       setValue(
         "selectedOptions",
-        initailData?.tagList ? initailData?.tagList : []
+        initailData?.tagList ? initailData?.tagList : [],
       )
     }
   }, [])
@@ -201,11 +226,11 @@ const Articledetails: React.FC<IProps> = ({
                         field.onChange(
                           selectedOptions
                             ? selectedOptions.map(option => option.value)
-                            : []
+                            : [],
                         )
                       }}
                       value={tags.filter(option =>
-                        field.value.includes(option.value)
+                        field.value.includes(option.value),
                       )}
                     />
                   )}
@@ -234,7 +259,7 @@ const Articledetails: React.FC<IProps> = ({
               />
             </div>
             <Button
-              disabled={!!ispending}
+              disabled={!!addArticleIsPending || editArticleIsPending}
               classnames='w-[100px] !py-2 text-paragraph_sm bg-primary-100 mt-7'
               type='submit'
               label='Submit'
@@ -283,7 +308,7 @@ const Articledetails: React.FC<IProps> = ({
                       onChange={() => {
                         const newValue = field.value.includes(option.value)
                           ? field.value.filter(
-                              (val: string) => val !== option.value
+                              (val: string) => val !== option.value,
                             )
                           : [...field.value, option.value]
                         field.onChange(newValue)
@@ -299,7 +324,7 @@ const Articledetails: React.FC<IProps> = ({
           </div>
         </div>
       </div>
-      {ispending && <LoadingUi />}
+      {(addArticleIsPending || editArticleIsPending) && <LoadingUi />}
     </>
   )
 }
