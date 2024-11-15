@@ -4,8 +4,10 @@ import { ArticleDetailes } from "@/ui/view"
 import { useParams } from "next/navigation"
 import { useGetArticlesBySlug, usegetTags } from "@/utils/api/apiQuery"
 import LoadingUi from "@/ui/components/loadingUi"
+import { useProtectRoute } from "@/hook"
 
 export default function EditArticles() {
+  useProtectRoute()
   const { slug } = useParams()
   const { data: tagsData, isLoading: getTagIsLoading } = usegetTags(["tags"])
   console.log(slug, "slugs")

@@ -3,8 +3,10 @@ import { useParams, useRouter } from "next/navigation"
 import { useGetArticles } from "@/utils/api/apiQuery"
 import LoadingUi from "@/ui/components/loadingUi"
 import { ArticleTable, PaginateLayout } from "@/ui/view"
+import { useProtectRoute } from "@/hook"
 
 export default function Articles() {
+  useProtectRoute()
   const router = useRouter()
   const { page } = useParams()
 

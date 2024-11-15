@@ -2,11 +2,12 @@
 import { ArticleDetailes } from "@/ui/view"
 import { usegetTags } from "@/utils/api/apiQuery"
 import LoadingUi from "@/ui/components/loadingUi"
+import { useProtectRoute } from "@/hook"
 
 export default function CreateArticles() {
+  useProtectRoute()
   // const tags = await getTag()
   const { data, isLoading } = usegetTags(["tags"])
-  console.log(data, "datta")
 
   return (
     <>

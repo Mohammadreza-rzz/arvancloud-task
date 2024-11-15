@@ -1,5 +1,4 @@
 "use clinet"
-
 import "@/assets/styles/globals.css"
 import "react-toastify/dist/ReactToastify.css"
 
