@@ -35,17 +35,17 @@ const LoginForm: React.FC<IProps> = () => {
 
   const submitHandler = async (values: loginSchemaType) => {
     const { email, password } = values
-    startTransition(async () => {
-      const res = await loginAction(password, email)
-      if (res?.status) {
-        if (res?.status >= 200 && res?.status < 400) {
-          toastHandler(200, "Well done", res?.message, "Login - success")
-          router.push("/articles")
-        } else {
-          toastHandler(400, "Login Failed!", res?.message, "Login Failed!")
-        }
-      }
-    })
+    // startTransition(async () => {
+    //   const res = await loginAction(password, email)
+    //   if (res?.status) {
+    //     if (res?.status >= 200 && res?.status < 400) {
+    //       toastHandler(200, "Well done", res?.message, "Login - success")
+    //       router.push("/articles")
+    //     } else {
+    //       toastHandler(400, "Login Failed!", res?.message, "Login Failed!")
+    //     }
+    //   }
+    // })
   }
   return (
     <form

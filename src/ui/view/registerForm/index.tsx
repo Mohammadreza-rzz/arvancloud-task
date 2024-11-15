@@ -4,14 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type React from "react"
-import { useTransition } from "react"
 import { useForm } from "react-hook-form"
-
+import { useRegister } from "@/utils/api/apiQuery"
 import type { registerSchemaType } from "@/types"
 import { Button, TextInput } from "@/ui/components"
 import LoadingUi from "@/ui/components/loadingUi"
-import { registerAction } from "@/utils/actions"
-import { toastHandler } from "@/utils/helper"
 import { registerSchema } from "@/utils/validations/FormSchema"
 
 interface IProps {}
@@ -23,7 +20,8 @@ type FormValues = {
 }
 
 const RegisterForm: React.FC<IProps> = () => {
-  const [isPending, startTransition] = useTransition()
+  const { mutateAsync, isPending } = useRegister()
+
   const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { handleSubmit, control } = useForm<FormValues | any>({
@@ -37,17 +35,15 @@ const RegisterForm: React.FC<IProps> = () => {
 
   const submitHandler = async (values: registerSchemaType) => {
     const { email, password, username } = values
-    startTransition(async () => {
-      const res = await registerAction(username, password, email)
-      if (res?.status) {
-        if (res?.status >= 200 && res?.status < 400) {
-          toastHandler(200, "Well done", res?.message, "register-success")
-          router.push("/login")
-        } else {
-          toastHandler(400, "Register Failed!", res?.message, "user-exist")
-        }
-      }
-    })
+
+    const reqBody = {
+      user: {
+        email,
+        password,
+        username,
+      },
+    }
+    await mutateAsync(reqBody)
   }
   return (
     <form

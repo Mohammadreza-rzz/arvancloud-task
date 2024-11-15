@@ -41,7 +41,7 @@ const loginAction = async (password: string, email: string) => {
       }
       return {
         status: 400,
-        message: '"Something went wrong, please try again later!',
+        message: "Something went wrong, please try again later!",
       }
     }
   }

@@ -33,8 +33,8 @@ export const truncateText = (text: string, limit: number): string => {
 export const toastHandler = (
   code: number,
   title: string,
-  description: string,
-  toastId: string
+  description: string = "Something went wrong, please try again later!",
+  toastId: string,
 ) => {
   if (code >= 200 && code < 400) {
     return toast(
@@ -53,7 +53,7 @@ export const toastHandler = (
         },
         isLoading: false,
         toastId: toastId ?? " ",
-      }
+      },
     )
   }
   return toast(
@@ -72,6 +72,6 @@ export const toastHandler = (
       },
       isLoading: false,
       toastId: toastId ?? " ",
-    }
+    },
   )
 }
